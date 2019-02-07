@@ -17,8 +17,12 @@ public class Board {
         //setupGame(numPlayers);
     }
 
-    private void setupGame(int numPlayers) {
+    private void initialSetupGame(int numPlayers) {
         //todo: setupGame() should make players, assign money, rank, credits, etc.
+    }
+
+    private void setupNewDay() {
+        
     }
 
     private void startGame() {

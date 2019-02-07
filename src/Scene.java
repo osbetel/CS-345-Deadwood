@@ -21,7 +21,7 @@ public class Scene {
     }
 
     public Scene(Map<String, Integer> roles, int shotsRemaining){
-        //todo
+        //todo: check rank see if they succeed
     }
 
     public int removeShot() {
