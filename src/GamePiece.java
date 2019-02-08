@@ -1,5 +1,5 @@
 /*
- * Created by: Andrew Nguyen
+ * Created by: Andrew Nguyen & Jade Jordan
  * Date: 2019-02-07
  * Time: 13:06
  * Deadwood
