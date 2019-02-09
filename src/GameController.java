@@ -13,7 +13,10 @@ public class GameController {
     private int remScenes;
 
     public GameController() {
-
+        //Needs to create the board, players, scenes, rooms, etc.
+        //Constructing the Board should also construct the Rooms
+        //Constructing Players should also construct GamePieces
+        //The Scenes are separate and tacked onto the rooms each day
     }
 
     //display credits of current player
