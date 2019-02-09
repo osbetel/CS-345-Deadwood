@@ -9,15 +9,15 @@ Project skeleton files.**
 "javac -d <output directory> *.java"
 
 3) You can specify an output directory using the -d flag.
-I like to use 
+I like to use
 
-"javac -d ~/Desktop/out *.java"
+"javac -d out *.java"
 
-which will output all the compiled classes to the desktop.
+which will output all the compiled classes to the same folder under the out directory.
 
 If you simply use
 
-"javac *.java" then it will output all compiled class files 
+"javac *.java" then it will output all compiled class files
 into the same directory as the java files.
 
 
@@ -30,4 +30,3 @@ and increment days, clearing the Scenes and assigning new ones as necessary.
 Players and their GamePieces are simply objects on the Board, but have no function
 in determining whether the day is done and whether new Scenes are needed.
 But they should be able to access Scenes to act, rehearse, and receive payouts.
-
