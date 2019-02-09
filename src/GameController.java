@@ -2,23 +2,23 @@
  * Created by: Andrew Nguyen & Jade Jordan
  * Date: 2019-02-07
  * Time: 22:20
- * System
+ * Deadwood
  */
 
-public class System {
+public class GameController {
 
     private int score;
     private int pChip;
     private int credits;
-    private int remScenes:
-     
-    public class System() {
+    private int remScenes;
+
+    public GameController() {
 
     }
 
     //display credits of current player
-    public class getCredits(Player player) {
-
+    public int getCredits(Player player) {
+        return -1;
     }
 
 /*
@@ -28,23 +28,24 @@ public class System {
     }
 */
     //display amount of practice chips a player has
-    public class getPChip(Player player) {
-        //
+    public int getPChip(Player player) {
+        return -1;
     }
 
     //calculating score at the moment
-    public class getScore (Player player) {
+    public int getScore(Player player) {
         //todo calc current score
+        return -1;
     }
 
     //see how many counters left on a given scene
-    public class getCounters (Room room) {
-
+    public int getCounters(Room room) {
+        return -1;
     }
 
     //know how many scenes are left
-    public class scenesLeft() {
-        
+    public int scenesLeft() {
+        return -1;
     }
 
 
