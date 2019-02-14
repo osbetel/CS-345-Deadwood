@@ -7,10 +7,11 @@
 
 public class GameController {
 
-    private int score;
-    private int pChip;
-    private int credits;
-    private int remScenes;
+    public int score;
+    public int pChip;
+    public int credits; //data shared w/in other classes that update it
+    public int remScenes;
+    public int remCount;
 
     public GameController() {
         //Needs to create the board, players, scenes, rooms, etc.
@@ -21,7 +22,7 @@ public class GameController {
 
     //display credits of current player
     public int getCredits(Player player) {
-        return -1;
+        return this.credits;
     }
 
 /*
@@ -32,23 +33,24 @@ public class GameController {
 */
     //display amount of practice chips a player has
     public int getPChip(Player player) {
-        return -1;
+        return this.pChip;
     }
 
     //calculating score at the moment
     public int getScore(Player player) {
         //todo calc current score
-        return -1;
+        return this.score;
     }
 
     //see how many counters left on a given scene
+    //***counter could be returned using this.__ or retrieved 
     public int getCounters(Room room) {
-        return -1;
+        return this.remCount;
     }
 
     //know how many scenes are left
     public int scenesLeft() {
-        return -1;
+        return this.remScenes;
     }
 
 
