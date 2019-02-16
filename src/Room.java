@@ -9,13 +9,19 @@ public class Room {
 
     private Scene currentScene;
     private String roomName;
+    public int shotCounters;
+    public int extraRoles;
 
-    public Room() {
-        //todo: there's only 10 rooms in total, so define a text file somewhere for use during setup
+    public Room(String name, int shotCounters, int extraRoles) {
+        this.roomName = name;
+        this.shotCounters = shotCounters;
+        this.extraRoles = extraRoles;
     }
 
     private void setScene(Scene newScene) {
+        // to be executed when new scenes are dealt
         this.currentScene = newScene;
+        this.shotCounters = 0;
     }
 
     public void clearScene() {
@@ -29,6 +35,5 @@ public class Room {
     public String getRoomName() {
         return this.roomName;
     }
-
 
 }
