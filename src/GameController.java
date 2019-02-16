@@ -5,6 +5,8 @@
  * Deadwood
  */
 
+import java.util.Arrays;
+
 public class GameController {
 
     private int score;
@@ -12,11 +14,28 @@ public class GameController {
     private int credits;
     private int remScenes;
 
-    public GameController() {
+    public GameController(int numPlayers) {
         //Needs to create the board, players, scenes, rooms, etc.
         //Constructing the Board should also construct the Rooms
         //Constructing Players should also construct GamePieces
         //The Scenes are separate and tacked onto the rooms each day
+        Board board = new Board(numPlayers);
+        Player[] players = board.getPlayers();
+        Scene[] scenes = createScenes(); //todo
+
+        // FOR TESTING
+        for (Player p : players) {
+            System.out.println(p);
+        }
+        for (Room r : board.rooms) {
+            System.out.println(r.getRoomName() + ", extras: " + r.extraRoles + ", shot counters: " +  r.shotCounters);
+        }
+    }
+
+    public Scene[] createScenes() {
+        // This should read in a text file and generate all the scenes,
+        // Place them into an array and return it to the game controller
+        return null;
     }
 
     //display credits of current player
@@ -50,6 +69,4 @@ public class GameController {
     public int scenesLeft() {
         return -1;
     }
-
-
 }
