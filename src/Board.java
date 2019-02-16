@@ -5,6 +5,10 @@
  * Deadwood
  */
 
+import java.io.File;
+import java.util.Arrays;
+import java.util.Scanner;
+
 public class Board {
     public Room[] rooms;
     private Player[] players;
@@ -13,20 +17,33 @@ public class Board {
     public Board(int numPlayers) {
         //initial setup
         this.day = 0;
-        //todo: need to loop and initialize players and rooms (don't forget special rooms)
-        //setupGame(numPlayers);
-    }
+        // setup rooms
+        this.rooms = new Room[12];
+        this.rooms[0] = new CastingOffice();
+        this.rooms[1] = new Trailer();
+        try {
+            File in = new File("src/rooms.txt");
+            Scanner sc = new Scanner(in);
+            for (int i = 2; i < 12; i++) {
+                String[] rmData = sc.nextLine().split(",");
+//                System.out.println(Arrays.toString(rmData));
+                rooms[i] = new Room(rmData[0],
+                        Integer.parseInt(rmData[1]),
+                        Integer.parseInt(rmData[2]));
+            }
+            //setupGame(numPlayers);
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
 
-    private void initialSetupGame(int numPlayers) {
-        //todo: setupGame() should make players, assign money, rank, credits, etc.
-    }
-
-    private void setupNewDay() {
-        
-    }
-
-    private void startGame() {
-        //todo: begin the game at the first player. Is there a better way to handle this?
+        //setup players
+        this.players = new Player[numPlayers];
+        for (int i = 0; i < numPlayers; i++) {
+            this.players[i] = new Player("default",0,
+                                        0,0);
+            // add a switch to create players based on the number of players
+            // also don't forget to allow system input "enter player 1's name" etc.
+        }
     }
 
     private int nextDay() {
@@ -46,6 +63,10 @@ public class Board {
         for (Room r : this.rooms) {
             //todo: r.newScene... from remaining unused scenes
         }
+    }
+
+    public Player[] getPlayers() {
+        return this.players;
     }
 
 }
