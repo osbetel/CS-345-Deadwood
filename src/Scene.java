@@ -10,7 +10,7 @@ import java.util.Map;
 public class Scene {
     private int shotsRemaining;
 
-    private Map<String, Integer> roles; // We can use it as <Role, payout information>, including bonus payouts
+    private Map<String, Role> roles; // We can use it as <Role, payout information>, including bonus payouts
     //MAP IS NOT A CLASS. It's an interface. Choose HashMap or TreeMap (red-black tree) for actual usage
 
 //    private int[] payouts; // [main role, side role, etc...]
@@ -27,6 +27,10 @@ public class Scene {
     public int removeShot() {
         this.shotsRemaining -= 1;
         return this.shotsRemaining;
+    }
+
+    public Role getRole(String r) {
+        return roles.get(r);
     }
 
     public void rehearse(Player actor) {

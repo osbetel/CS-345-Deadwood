@@ -1,0 +1,10 @@
+Train Station,3,4
+Jail,1,2
+General Store,2,2
+Main Street,3,4
+Saloon,2,2
+Ranch,2,3
+Secret Hideout,3,4
+Bank,1,2
+Church,2,2
+Hotel,3,4

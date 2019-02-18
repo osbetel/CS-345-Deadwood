@@ -9,9 +9,8 @@ public class Deadwood {
 
     public static void main(String[] args) {
         System.out.println("it compiles");
-
-        //GameController controller = new GameController();
-        //The game controller should create the board, players, scenes,
+        GameController gc = new GameController(4);
+        //The game controller should  create the board, players, scenes,
         //etc., and then connect them together (with access as necessary!)
     }
 
