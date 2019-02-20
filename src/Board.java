@@ -11,7 +11,6 @@ import java.util.Scanner;
 
 public class Board {
     public Room[] rooms;
-    private Player[] players;
     private int day;
 
     public Board(int numPlayers) {
@@ -24,6 +23,9 @@ public class Board {
         try {
             File in = new File("src/rooms.txt");
             Scanner sc = new Scanner(in);
+            //todo
+            //# "Room Name", # of shot counters, ["Role Name", required rank (integer)]
+            //sc.nextLine(); //Ignore first line of formatting rules
             for (int i = 2; i < 12; i++) {
                 String[] rmData = sc.nextLine().split(",");
 //                System.out.println(Arrays.toString(rmData));
@@ -34,15 +36,6 @@ public class Board {
             //setupGame(numPlayers);
         } catch (Exception ex) {
             System.out.println(ex);
-        }
-
-        //setup players
-        this.players = new Player[numPlayers];
-        for (int i = 0; i < numPlayers; i++) {
-            this.players[i] = new Player("default",0,
-                                        0,0);
-            // add a switch to create players based on the number of players
-            // also don't forget to allow system input "enter player 1's name" etc.
         }
     }
 
@@ -63,10 +56,6 @@ public class Board {
         for (Room r : this.rooms) {
             //todo: r.newScene... from remaining unused scenes
         }
-    }
-
-    public Player[] getPlayers() {
-        return this.players;
     }
 
 }

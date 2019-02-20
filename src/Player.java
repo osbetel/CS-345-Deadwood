@@ -49,7 +49,9 @@ public class Player {
         return -1.0;
     }
 
-
+    public boolean rankUp(int targetRank, boolean dollarCosts) {
+        return false;
+    }
 
 
 

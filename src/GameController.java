@@ -21,7 +21,7 @@ public class GameController {
         //Constructing Players should also construct GamePieces
         //The Scenes are separate and tacked onto the rooms each day
         Board board = new Board(numPlayers);
-        Player[] players = board.getPlayers();
+        Player[] players = makePlayers(4);
         Scene[] scenes = createScenes(); //todo
 
         // FOR TESTING
@@ -39,17 +39,15 @@ public class GameController {
         return null;
     }
 
+    private Player[] makePlayers(int num) {
+        return null;
+    }
+
     //display credits of current player
     public int getCredits(Player player) {
         return this.credits;
     }
 
-/*
-    //get rank was already in another class, should it just stay there?
-    public int getRank() {
-        return dice.getRank();
-    }
-*/
     //display amount of practice chips a player has
     public int getPChip(Player player) {
         return this.pChip;

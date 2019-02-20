@@ -1,0 +1,2 @@
+//Scene #, "Scene name", Budget, [[Role 1], [Role 2], ...]
+7, Evil Wears a Hat, 4, [[Defrocked Priest, 2], [Marshall Canfield, 3], [One-Eyed Man, 4]]

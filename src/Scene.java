@@ -9,6 +9,8 @@ import java.util.Map;
 
 public class Scene {
     private int shotsRemaining;
+    private int sceneNumber;
+    private String sceneName;
 
     private Map<String, Role> roles; // We can use it as <Role, payout information>, including bonus payouts
     //MAP IS NOT A CLASS. It's an interface. Choose HashMap or TreeMap (red-black tree) for actual usage

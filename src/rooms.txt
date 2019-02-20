@@ -1,8 +1,11 @@
+//"Room Name", # of shot counters, ["Role Name", required rank (integer)]
 Train Station,3,4
-Jail,1,2
+Jail,1,[[Prisoner in Cell,2], [Feller in Irons, 3]]
 General Store,2,2
 Main Street,3,4
 Saloon,2,2
+6, Trailer,0,[]
+7, Casting Office,0,[]
 Ranch,2,3
 Secret Hideout,3,4
 Bank,1,2
