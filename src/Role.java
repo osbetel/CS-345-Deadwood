@@ -8,12 +8,12 @@
 public class Role {
     // what does a Role have?
     String title;
-    int payout;
     int requiredRank;
+    boolean mainRole;
 
-    public Role(String title, int payout, int requiredRank) {
+    public Role(String title, int requiredRank, boolean isOnCardRole) {
         this.title = title;
-        this.payout = payout;
         this.requiredRank = requiredRank;
+        this.mainRole = isOnCardRole;
     }
 }

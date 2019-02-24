@@ -1,48 +1,41 @@
-//Scene #, "Scene name", Budget, [[Role 1, Rank #], [Role 2,  Rank #], ...]
-
-//there's multiples of certain scenes and some are missing, I can ask about that?
-1, "Picante Sauce Commercial", 2, [[Bewhisker'd Cowpoke, 3], [Dog, 5]]
-2, "How They Get Milk", 4, [[Cow, 2], [St. Clement of Alexandria, 3], [Josie, 4]]
-2, "Taffy Commercial", 2, [[Curious Girl, 3], [Ghost of Plato, 4]]
-3, "Gum Commercial", 2, [[Surpised Bison, 2], [Man with Horn, 4]]
-
-5, "Trials of the First Pioneers", 4, [[Burning Man, 2], [Cheese Vendor, 4], [Hit with Table, 5]]
-
-7, "Evil Wears a Hat", 4, [[Defrocked Priest, 2], [Marshall Canfield, 3], [One-Eyed Man, 4]]
-8, "How They Get Milk", 4, [[Marksman, 4], [Postal Worker, 5], [A Horse, 6]]
-8, "Distaster at Flying J", 5, [[Paino Player, 2], [Man in Turban, 3], [Falls on Hoe, 4]]
-8, "Jesse James: Man of Action", 5, [[Shot in Back, 2], [Shot in Leg, 4], [Leaps into Cake, 5]]
-9, "How the Grinch Stole Texas", 5, [[Detective, 3], [File Clerk, 4], [Cindy Lou, 5]]
-
-
-12, "Davy Crockett: A Drunkard's Tale", 4, [[Voice of God, 2], [Hands of God, 3], [Jack Kemp, 4]]
-12, "The Search for Maggie White", 6, [[Film Critic, 5], [Hobo with Bat, 6]]
-12, "Beyond the Pail: Life without Lactose", 2, [[Martin, 6]]
-12, "Buffalo Bill: The Lost Years", 4, [[Hollering Boy, 2], [Drunk Farmer, 3] [Meek Little Sarah, 5]]
-13, "J. Robert Lucky, Man of Substance", 4, [[Man with Rope, 1], [Svetlana, 2], [Accidental Victim, 5]]
-14, "Square Deal City", 6, [[Squaking Boy, 2], [Pharoah Imhotep, 4], [Aunt Martha, 6]]
-14, "Ol' Shooter and Little Doll", 4, [[Sleeping Man, 1], [Man with Pig, 2], [Shooter, 4]]
-14, "Jesse James", 5, [[Shot in Head, 1], [Leaps Out of Cake, 4], [Shot Three Times, 6]]
-15, "The Life and Times of John Skywater", 5, [[Staggering Man, 3], [Woman with Beer, 5], [Marcie, 6]]
-15, "Thirteen the Hard Way", 5, [[Man in Poncho, 1], [Ecstatic Housewife, 3], [Isaac, 5]]
-16, "A Man Called 'Cow'", 3, [[Preacher, 3], [Amused Witness, 6]]
-16, "Humor at the Expense of Others", 5, [[Jailer, 2], [Mephistopheles, 4], [Breaks a Window, 5]]
-17, "Thirteen the Hard Way", 5, [[Very Wet Man, 2], [Dejected Housewife, 4], [Man with Box, 5]]
-
-19, "Swing 'em Wide", 6, [[Thrifty Mike, 1], [Sober Physician, 3], [Man on Floor, 5]]
-19, "The Robbers of Trains", 4, [[Buster, 1], [Man Reading Paper, 4], [Fat Pepe, 5]]
-19, "Breakin' in Trick Ponies", 3, [[Fraternity Pledge, 2], [Man with Sword, 6]]
-20, "Law and the Old West", 3, [[Rug Merchant, 1], [Banker, 2], [Talking Mule, 5]]
-21, "One False Step for Mankind", 6, [[Flustered Man, 1], [Space Monkey, 2], [Cowbot Dan, 5]]
-22, "The Life and Times of John Skywater", 5, [[Auctioneer, 5], [General Custer, 6]]
-23, "Shakespeare in Lubbock", 3, [[Falls from Tree, 1], [Laughing Woman, 3], [Man with Whistle, 4]]
-24, "Down in the Valley", 3, [[Angry Barber, 1], [Woman with Board, 3], [Man on Fire, 5]]
-25, "Gun! The Musical", 6, [[Looks like Elvis, 4], [Singing Dead Man, 5], [Apothecary, 6]]
-25, "Czechs in the Sonora", 4, [[Opice (Monkey), 5], [Man with Gun, 6]]
-27, "My Years on the Prairie", 5, [[Willard, 2], [Leprechaun, 3], [Startled Ox, 5]]
-30, "Go West, You!", 3, [[Ex-Convict, 4], [Man with Onion, 6]]
-31, "Davy Crockett: A Drunkard's Tale", 4, [[The Duck, 4], [His Brother, 6]]
-32, "My Years on the Prairie", 5, [[Drunk, 3], [Librarian, 4], [Man with Hay, 6]]
-34, "The Way the West Was Run", 4, [[Town Drunk, 2], [Squinting Miner, 4], [Poltergeist, 5]]
-35, "Swing 'em Wide", 6, [[Liberated Nun, 3], [Witch Doctor, 5], [Voice of Reason, 6]]
-40, "Custer's Other Stands", 5, [[Farmer, 2], [Exploding Horses, 4], [Jack, 6]]
+//Scene #; Scene name; Budget; Role 1; Rank #; Role 2;  Rank #; ...
+1; Picante Sauce Commercial; 2; Bewhisker'd Cowpoke; 3; Dog; 5
+2; How They Get Milk; 4; Cow; 2; St. Clement of Alexandria; 3; Josie; 4
+3; Taffy Commercial; 2; Curious Girl; 3; Ghost of Plato; 4
+4; Gum Commercial; 2; Surprised Bison; 2; Man with Horn; 4
+5; Trials of the First Pioneers; 4; Burning Man; 2; Cheese Vendor; 4; Hit with Table; 5
+6; Evil Wears a Hat; 4; Defrocked Priest; 2; Marshall Canfield; 3; One-Eyed Man; 4
+7; How They Get Milk; 4; Marksman; 4; Postal Worker; 5; A Horse; 6
+8; Disaster at Flying J; 5; Piano Player; 2; Man in Turban; 3; Falls on Hoe; 4
+9; Jesse James: Man of Action; 5; Shot in Back; 2; Shot in Leg; 4; Leaps into Cake; 5
+10; How the Grinch Stole Texas; 5; Detective; 3; File Clerk; 4; Cindy Lou; 5
+11; Davy Crockett: A Drunkard's Tale; 4; Voice of God; 2; Hands of God; 3; Jack Kemp; 4
+12; The Search for Maggie White; 6; Film Critic; 5; Hobo with Bat; 6
+13; Beyond the Pail: Life without Lactose; 2; Martin; 6
+14; Buffalo Bill: The Lost Years; 4; Hollering Boy; 2; Drunk Farmer; 3; Meek Little Sarah; 5
+15; J. Robert Lucky, Man of Substance; 4; Man with Rope; 1; Svetlana; 2; Accidental Victim; 5
+16; Square Deal City; 6; Squeaking Boy; 2; Pharaoh Imhotep; 4; Aunt Martha; 6
+17; Ol' Shooter and Little Doll; 4; Sleeping Man; 1; Man with Pig; 2; Shooter; 4
+18; Jesse James; 5; Shot in Head; 1; Leaps Out of Cake; 4; Shot Three Times; 6
+19; The Life and Times of John Skywater; 5; Staggering Man; 3; Woman with Beer; 5; Marcie; 6
+20; Thirteen the Hard Way; 5; Man in Poncho; 1; Ecstatic Housewife; 3; Isaac; 5
+21; A Man Called 'Cow'; 3; Preacher; 3; Amused Witness; 6
+22; Humor at the Expense of Others; 5; Jailer; 2; Mephistopheles; 4; Breaks a Window; 5
+23; Thirteen the Hard Way; 5; Very Wet Man; 2; Dejected Housewife; 4; Man with Box; 5
+24; Swing 'em Wide; 6; Thrifty Mike; 1; Sober Physician; 3; Man on Floor; 5
+25; The Robbers of Trains; 4; Buster; 1; Man Reading Paper; 4; Fat Pepe; 5
+26; Breakin' in Trick Ponies; 3; Fraternity Pledge; 2; Man with Sword; 6
+27; Law and the Old West; 3; Rug Merchant; 1; Banker; 2; Talking Mule; 5
+28; One False Step for Mankind; 6; Flustered Man; 1; Space Monkey; 2; Cowbot Dan; 5
+29; The Life and Times of John Skywater; 5; Auctioneer; 5; General Custer; 6
+30; Shakespeare in Lubbock; 3; Falls from Tree; 1; Laughing Woman; 3; Man with Whistle; 4
+31; Down in the Valley; 3; Angry Barber; 1; Woman with Board; 3; Man on Fire; 5
+32; Gun! The Musical; 6; Looks like Elvis; 4; Singing Dead Man; 5; Apothecary; 6
+33; Czechs in the Sonora; 4; Opice (Monkey); 5; Man with Gun; 6
+34; My Years on the Prairie; 5; Willard; 2; Leprechaun; 3; Startled Ox; 5
+35; Go West, You!; 3; Ex-Convict; 4; Man with Onion; 6
+36; Davy Crockett: A Drunkard's Tale; 4; The Duck; 4; His Brother; 6
+37; My Years on the Prairie; 5; Drunk; 3; Librarian; 4; Man with Hay; 6
+38; The Way the West Was Run; 4; Town Drunk; 2; Squinting Miner; 4; Poltergeist; 5
+39; Swing 'em Wide; 6; Liberated Nun; 3; Witch Doctor; 5; Voice of Reason; 6
+40; Custer's Other Stands; 5; Farmer; 2; Exploding Horses; 4; Jack; 6

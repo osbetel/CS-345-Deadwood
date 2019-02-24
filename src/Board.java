@@ -7,6 +7,7 @@
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -16,8 +17,6 @@ public class Board {
     private int day;
 
     public Board(int numPlayers) {
-        //initial setup
-        this.day = 0;
 
         // setup rooms
         this.rooms = new Room[12];
@@ -27,15 +26,18 @@ public class Board {
             //"Room Name", # of shot counters, "Extra Role Name", required rank (integer)
             sc.nextLine(); //Ignore first line of formatting rules
             for (int i = 0; i < 12; i++) {
-                String[] rmData = sc.nextLine().split(",");
+                String[] rmData = sc.nextLine().split(";");
 //                System.out.println(Arrays.toString(rmData));
 
                 String rmName = rmData[0];
                 int rmShotCounters = Integer.parseInt(rmData[1].strip());
-                HashMap<String, Integer> roles = new HashMap<>();
+                HashMap<String, Role> roles = new HashMap<>();
 
                 for (int j = 2; j < rmData.length; j += 2) {
-                    roles.put(rmData[j], Integer.parseInt(rmData[j + 1].strip()));
+                    Role r = new Role(rmData[j],
+                            Integer.parseInt(rmData[j + 1].strip()),
+                            false);
+                    roles.put(rmData[j], r);
                 }
 
                 //Now we have a string name, int shotcounters, and a map of <string roles, int rank>
@@ -44,11 +46,12 @@ public class Board {
         } catch (FileNotFoundException ex) {
             System.out.println(ex);
         }
+
     }
 
-    private int nextDay() {
-        this.day += 1;
-        return this.day;
+    public void newDay(ArrayList<Scene> availableScenes) {
+        clearScenes();
+        dealScenes(availableScenes);
     }
 
     private void clearScenes() {
@@ -58,10 +61,10 @@ public class Board {
         }
     }
 
-    private void dealScenes() {
+    private void dealScenes(ArrayList<Scene> available) {
         //deal out scene cards / objects to each room. Called at start of a new day
         for (Room r : this.rooms) {
-            //todo: r.newScene... from remaining unused scenes
+
         }
     }
 

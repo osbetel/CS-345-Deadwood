@@ -5,23 +5,26 @@
  * Deadwood
  */
 
+import java.nio.file.FileAlreadyExistsException;
+import java.util.HashMap;
+import java.util.Map;
+
 public class Room {
 
-    private Scene currentScene;
-    private String roomName;
-    public int shotCounters;
-    public int extraRoles;
+    public Scene currentScene;
+    public final String roomName;
+    public final int shotCounters;
+    public final Map<String, Role> extraRoles;
 
-    public Room(String name, int shotCounters, int extraRoles) {
+    public Room(String name, int shotCounters, HashMap<String, Role> roles) {
         this.roomName = name;
         this.shotCounters = shotCounters;
-        this.extraRoles = extraRoles;
+        this.extraRoles = roles;
     }
 
     private void setScene(Scene newScene) {
         // to be executed when new scenes are dealt
         this.currentScene = newScene;
-        this.shotCounters = 0;
     }
 
     public void clearScene() {

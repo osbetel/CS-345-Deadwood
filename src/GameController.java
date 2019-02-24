@@ -5,7 +5,12 @@
  * Deadwood
  */
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Scanner;
 
 public class GameController {
 
@@ -14,32 +19,71 @@ public class GameController {
     public int credits; //data shared w/in other classes that update it
     public int remScenes;
     public int remCount;
+    private ArrayList<Scene> scenes;
+    private Board board;
+    private Player[] players;
+
+
 
     public GameController(int numPlayers) {
         //Needs to create the board, players, scenes, rooms, etc.
         //Constructing the Board should also construct the Rooms
         //Constructing Players should also construct GamePieces
         //The Scenes are separate and tacked onto the rooms each day
-        Board board = new Board(numPlayers);
-        Player[] players = makePlayers(4);
-        Scene[] scenes = createScenes(); //todo
+        this.board = new Board(numPlayers);
+        this.scenes = createScenes();
+        this.players = makePlayers(4);
 
         // FOR TESTING
-        for (Player p : players) {
-            System.out.println(p);
-        }
-        for (Room r : board.rooms) {
-            System.out.println(r.getRoomName() + ", extras: " + r.extraRoles + ", shot counters: " +  r.shotCounters);
-        }
+//        for (Player p : players) {
+//            System.out.println(p);
+//        }
+//        for (Room r : board.rooms) {
+//            System.out.println(r.getRoomName() + ", extras: " + r.extraRoles + ", shot counters: " +  r.shotCounters);
+//        }
     }
 
-    public Scene[] createScenes() {
+    public ArrayList<Scene> createScenes() {
         // This should read in a text file and generate all the scenes,
         // Place them into an array and return it to the game controller
-        return null;
+        scenes = new ArrayList<>();
+
+        try {
+            File sceneFile = new File("Assets/scenes.txt");
+            Scanner sc = new Scanner(sceneFile);
+            sc.nextLine();
+
+            while (sc.hasNextLine()) {
+                String[] sceneData = sc.nextLine().split(";");
+                int sceneNum = Integer.parseInt(sceneData[0]);
+                String sceneTitle = sceneData[1];
+                int sceneBudget = Integer.parseInt(sceneData[2].strip());
+
+                HashMap<String, Role> roles = new HashMap<>();
+
+                for (int j = 3; j < sceneData.length; j += 2) {
+                    Role r = new Role(sceneData[j],
+                            Integer.parseInt(sceneData[j + 1].strip()),
+                            true);
+                    roles.put(sceneData[j], r);
+                }
+                scenes.add(new Scene(sceneNum, sceneTitle, sceneBudget, roles));
+            }
+
+        } catch (FileNotFoundException ex) {
+            System.out.println(ex);
+        }
+        return scenes;
     }
 
     private Player[] makePlayers(int num) {
+
+        Player[] newPlayers = new Player[num];
+        switch (num) {
+            case 2:
+
+        }
+
         return null;
     }
 
