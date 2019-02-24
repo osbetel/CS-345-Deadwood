@@ -6,7 +6,9 @@
  */
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class Board {
@@ -16,25 +18,30 @@ public class Board {
     public Board(int numPlayers) {
         //initial setup
         this.day = 0;
+
         // setup rooms
         this.rooms = new Room[12];
-        this.rooms[0] = new CastingOffice();
-        this.rooms[1] = new Trailer();
         try {
-            File in = new File("src/rooms.txt");
-            Scanner sc = new Scanner(in);
-            //todo
-            //# "Room Name", # of shot counters, ["Role Name", required rank (integer)]
-            //sc.nextLine(); //Ignore first line of formatting rules
-            for (int i = 2; i < 12; i++) {
+            File roomFile = new File("Assets/rooms.txt");
+            Scanner sc = new Scanner(roomFile);
+            //"Room Name", # of shot counters, "Extra Role Name", required rank (integer)
+            sc.nextLine(); //Ignore first line of formatting rules
+            for (int i = 0; i < 12; i++) {
                 String[] rmData = sc.nextLine().split(",");
 //                System.out.println(Arrays.toString(rmData));
-                rooms[i] = new Room(rmData[0],
-                        Integer.parseInt(rmData[1]),
-                        Integer.parseInt(rmData[2]));
+
+                String rmName = rmData[0];
+                int rmShotCounters = Integer.parseInt(rmData[1].strip());
+                HashMap<String, Integer> roles = new HashMap<>();
+
+                for (int j = 2; j < rmData.length; j += 2) {
+                    roles.put(rmData[j], Integer.parseInt(rmData[j + 1].strip()));
+                }
+
+                //Now we have a string name, int shotcounters, and a map of <string roles, int rank>
+                this.rooms[i] = new Room(rmName, rmShotCounters, roles);
             }
-            //setupGame(numPlayers);
-        } catch (Exception ex) {
+        } catch (FileNotFoundException ex) {
             System.out.println(ex);
         }
     }
