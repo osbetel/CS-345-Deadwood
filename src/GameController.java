@@ -7,6 +7,7 @@
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -22,27 +23,31 @@ public class GameController {
     private ArrayList<Scene> scenes;
     private Board board;
     private Player[] players;
+    private int daysToPlay;
 
-
-
+    /**
+     *
+     * @param numPlayers
+     */
     public GameController(int numPlayers) {
-        //Needs to create the board, players, scenes, rooms, etc.
-        //Constructing the Board should also construct the Rooms
-        //Constructing Players should also construct GamePieces
-        //The Scenes are separate and tacked onto the rooms each day
+
         this.board = new Board(numPlayers);
         this.scenes = createScenes();
         this.players = makePlayers(4);
 
-        // FOR TESTING
-//        for (Player p : players) {
-//            System.out.println(p);
-//        }
-//        for (Room r : board.rooms) {
-//            System.out.println(r.getRoomName() + ", extras: " + r.extraRoles + ", shot counters: " +  r.shotCounters);
-//        }
+        // So now the board is created (rooms are created in the process)
+        // The scene cards are all created
+        // And the players are all created...
+
+        //TESTING CODE
+        GameControllerTest.testAll(players, board, scenes);
     }
 
+    /**
+     * Reads in scenes.txt and creates all 40 Scene cards, with proper budget values, Roles, etc.
+     * See the Scenes class for more detail on the definition of a Scene.
+     * @return Returns an ArrayList of all the Scene cards
+     */
     public ArrayList<Scene> createScenes() {
         // This should read in a text file and generate all the scenes,
         // Place them into an array and return it to the game controller
@@ -76,15 +81,47 @@ public class GameController {
         return scenes;
     }
 
+    /**
+     * Creates num Players and puts them in an Array for use by the GameController
+     * @param num Parameter is the number of Players in this game session. Easy.
+     * @return Return an Array, Player[num]
+     */
     private Player[] makePlayers(int num) {
+        int startingMoney = 0;
+        int startingCredits = 0;
+        int startingRank = 1;
+        int numOfDays = 4;
+        Room startingRoom = board.rooms.get("Casting Office");
 
-        Player[] newPlayers = new Player[num];
-        switch (num) {
-            case 2:
-
+        //Determining potential special rules
+        if (isYBetweenXAndZ(2, num, 3)) {
+            numOfDays = 3;
+        } else if (num == 4) {
+            // do nothing
+        } else if (num == 5) {
+            startingCredits = 2;
+        } else if (num == 6) {
+            startingCredits = 4;
+        } else if (isYBetweenXAndZ(7, num, 8)) {
+            startingRank = 2;
         }
 
-        return null;
+
+        // Now actually create num players
+        Player[] newPlayers = new Player[num];
+        Scanner sc = new Scanner(System.in);
+        for (int i = 0; i < num; i++) {
+            System.out.println("Please type player " + (i+1) + "'s name: ");
+            String name = sc.next();
+            newPlayers[i] = new Player(name, startingRank, startingMoney, startingCredits, startingRoom);
+        }
+
+        this.daysToPlay = numOfDays;
+        return newPlayers;
+    }
+
+    private boolean isYBetweenXAndZ(int X, int Y, int Z) {
+        return X <= Y && Y <= Z;
     }
 
     //display credits of current player

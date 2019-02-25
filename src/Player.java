@@ -8,13 +8,23 @@
 public class Player {
 
     private GamePiece dice;
+    public final String playerName;
+
     private Room currentRoom;
     private Scene currentScene;
     private Role currentRole;
 
+    private int money;
+    private int credits;
+
     public Player(String name, int startingRank,
-                  int startingMoney, int startingCredits) {
-        //stuff
+                  int startingMoney, int startingCredits, Room startingRoom) {
+        playerName = name;
+        credits = startingCredits;
+        money = startingMoney;
+        dice = new GamePiece(startingRank);
+
+        currentRoom = startingRoom;
     }
 
     private void move(Room location) {
