@@ -13,19 +13,19 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class Board {
-    public Room[] rooms;
+    public HashMap<String, Room> rooms;
     private int day;
 
     public Board(int numPlayers) {
 
         // setup rooms
-        this.rooms = new Room[12];
+        this.rooms = new HashMap<>();
         try {
             File roomFile = new File("Assets/rooms.txt");
             Scanner sc = new Scanner(roomFile);
             //"Room Name", # of shot counters, "Extra Role Name", required rank (integer)
             sc.nextLine(); //Ignore first line of formatting rules
-            for (int i = 0; i < 12; i++) {
+            while (sc.hasNextLine()){
                 String[] rmData = sc.nextLine().split(";");
 //                System.out.println(Arrays.toString(rmData));
 
@@ -41,7 +41,13 @@ public class Board {
                 }
 
                 //Now we have a string name, int shotcounters, and a map of <string roles, int rank>
-                this.rooms[i] = new Room(rmName, rmShotCounters, roles);
+                if (rmName.equals("Trailer")) {
+                    this.rooms.put(rmName, new Trailer());
+                } else if (rmName.equals("Casting Office")) {
+                    this.rooms.put(rmName, new CastingOffice());
+                } else {
+                    this.rooms.put(rmName, new Room(rmName, rmShotCounters, roles));
+                }
             }
         } catch (FileNotFoundException ex) {
             System.out.println(ex);
@@ -56,16 +62,14 @@ public class Board {
 
     private void clearScenes() {
         //removes all scenes from all rooms
-        for (Room r : this.rooms) {
-            r.clearScene();
+        for (String rm : rooms.keySet()) {
+            rooms.get(rm).clearScene();
         }
     }
 
     private void dealScenes(ArrayList<Scene> available) {
         //deal out scene cards / objects to each room. Called at start of a new day
-        for (Room r : this.rooms) {
 
-        }
     }
 
 }
