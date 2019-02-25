@@ -9,15 +9,17 @@ public class GamePiece {
 
     private int rank;
 
-    public GamePiece() {
-        //todo
-        this.rank = 1;
+    public GamePiece(int rank) {
+        this.rank = rank;
     }
 
     public int getRank() {
         return this.rank;
     }
 
-
-
+    public void rankUp() {
+        //DOES NOTHING. All the checks are performed in the player class and if they are true,
+        //then this simply increments by 1. Does NOT check anything.
+        this.rank += 1;
+    }
 }
