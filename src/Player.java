@@ -13,6 +13,9 @@ public class Player {
     private Room currentRoom;
     private Scene currentScene;
     private Role currentRole;
+    private CastingOffice value;
+    public GameController credits;
+    public GameController dollars;
 
     private int money;
     private int credits;
@@ -58,13 +61,40 @@ public class Player {
     public double getTotalValue() {
         return -1.0;
     }
+    ///*
+    //question about current vals
+    public void rankUp(int targetRank, boolean dollarOrCredit) {
+        //dollarOrCredit.toLowerCase();
+        try {
+            if (currentRoom == CastingOffice) {
 
-    public boolean rankUp(int targetRank, boolean dollarCosts) {
-        return false;
+                //for user inputting "dollar" or "credit
+                if (dollarOrCredit ==) { //if using credit
+                    credits.getCredits(playerName);
+                    int[] list = value.CastingOffice(); //but there's two lists in the constuctor, how to distinguish the two //
+                    if (credits >= list[targetRank])
+                        credits -= list[targetRank];
+                    else {
+                        System.out.println("Insufficient amount of credits");
+                        dollarOrCredit = true;
+                    }
+                } else { //using dollar
+                    //dollar.getDollars(playerName);
+                    int[] list = value.CastingOffice(); //but there's two lists in the constuctor, how to distinguish the two //
+                    if (dollars >= list.)
+                        dollarOrCredit = false;
+                }
+            }
+        } catch (Exception e) {
+                System.out.println("Can only rank up in the Casting Office");
+                System.exit(1);
+            }
+
+
+
     }
 
-
-
+//*/
 
 
 
