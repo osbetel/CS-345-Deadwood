@@ -47,6 +47,7 @@ public class Player {
     private void doNothing() {
         // player takes no action
         // add something to remove their turn
+        System.out.println("On to the next player's turn!");
     }
 
 
