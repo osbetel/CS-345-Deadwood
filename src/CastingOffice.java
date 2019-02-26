@@ -7,13 +7,13 @@
 
 public class CastingOffice extends Room {
 
-    int[] dollarCosts;
-    int[] creditCost;
+    public final int[] dollarCost;
+    public final int[] creditCost;
 
     public CastingOffice() {
         super("Casting Office", 0, null);
-        this.dollarCosts = new int[] {0, 0, 4, 10, 18, 28, 40}; //0 in the 0th and 1st place in the list so price can correlate with index
-        this.creditCost = new int[] {0, 0, 5, 10, 15, 20, 25};
+        this.dollarCost = new int[] {4, 10, 18, 28, 40};
+        this.creditCost = new int[] {5, 10, 15, 20, 25};
     }
 
 }

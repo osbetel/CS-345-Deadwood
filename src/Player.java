@@ -5,35 +5,37 @@
  * Deadwood
  */
 
+import java.io.InvalidObjectException;
+
 public class Player {
 
     private GamePiece dice;
     public final String playerName;
 
+    private int dollars;
+    private int credits;
+
     private Room currentRoom;
     private Scene currentScene;
     private Role currentRole;
-    private CastingOffice value;
-    public GameController credits;
-    public GameController dollars;
 
-    private int money;
-    private int credits;
 
     public Player(String name, int startingRank,
-                  int startingMoney, int startingCredits, Room startingRoom) {
+                  int startingDollars, int startingCredits, Room startingRoom) {
         playerName = name;
         credits = startingCredits;
-        money = startingMoney;
+        dollars = startingDollars;
         dice = new GamePiece(startingRank);
 
         currentRoom = startingRoom;
     }
 
+
     private void move(Room location) {
         //todo: check currentRoom to see if target room is adjacent
         this.currentRoom = location;
     }
+
 
     private void takeRole(Scene scene, String role) {
         // roles are defined in Scene class as a Map<String, Integer>, where the integer value is the payout.
@@ -41,61 +43,63 @@ public class Player {
         this.currentRole = scene.getRole(role);
     }
 
+
     private void doNothing() {
         // player takes no action
         // add something to remove their turn
     }
 
+
     public Room getCurrentRoom() {
         return currentRoom;
     }
+
 
     public Scene getCurrentScene() {
         return currentScene;
     }
 
+
     public int getRank() {
         return dice.getRank();
     }
 
+
     public double getTotalValue() {
         return -1.0;
     }
-    ///*
-    //question about current vals
-    public void rankUp(int targetRank, boolean dollarOrCredit) {
-        //dollarOrCredit.toLowerCase();
-        try {
-            if (currentRoom == CastingOffice) {
 
-                //for user inputting "dollar" or "credit
-                if (dollarOrCredit ==) { //if using credit
-                    credits.getCredits(playerName);
-                    int[] list = value.CastingOffice(); //but there's two lists in the constuctor, how to distinguish the two //
-                    if (credits >= list[targetRank])
-                        credits -= list[targetRank];
-                    else {
-                        System.out.println("Insufficient amount of credits");
-                        dollarOrCredit = true;
-                    }
-                } else { //using dollar
-                    //dollar.getDollars(playerName);
-                    int[] list = value.CastingOffice(); //but there's two lists in the constuctor, how to distinguish the two //
-                    if (dollars >= list.)
-                        dollarOrCredit = false;
+
+    public void rankUp(boolean usingCredits) {
+
+        int currentRank = getRank();
+        if (currentRank == 6) {
+            System.out.println("You're already the maximum rank!");
+        }
+
+        if (currentRoom instanceof CastingOffice) {
+            System.out.println("You must be in the Casting Office to rank up!");
+        } else {
+
+            if (usingCredits) { //if using credit
+                int creditCost = ((CastingOffice) currentRoom).creditCost[currentRank];
+                if (credits >= creditCost) {
+                    credits -= creditCost;
+                    this.dice.rankUp();
+                } else {
+                    System.out.println("Insufficient amount of credits");
                 }
             }
-        } catch (Exception e) {
-                System.out.println("Can only rank up in the Casting Office");
-                System.exit(1);
+
+            else { //if using credit
+                int dollarCost = ((CastingOffice) currentRoom).dollarCost[currentRank];
+                if (dollars >= dollarCost) {
+                    dollars -= dollarCost;
+                    this.dice.rankUp();
+                } else {
+                    System.out.println("Insufficient amount of dollars");
+                }
             }
-
-
-
+        }
     }
-
-//*/
-
-
-
 }

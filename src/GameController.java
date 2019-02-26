@@ -15,11 +15,6 @@ import java.util.Scanner;
 
 public class GameController {
 
-    public int score;
-    public int pChip;
-    public int credits; //data shared w/in other classes that update it
-    public int remScenes;
-    public int remCount;
     private ArrayList<Scene> scenes;
     private Board board;
     private Player[] players;
@@ -33,7 +28,7 @@ public class GameController {
 
         this.board = new Board(numPlayers);
         this.scenes = createScenes();
-        this.players = makePlayers(4);
+        this.players = makePlayers(numPlayers);
 
         // So now the board is created (rooms are created in the process)
         // The scene cards are all created
@@ -41,6 +36,14 @@ public class GameController {
 
         //TESTING CODE
         GameControllerTest.testAll(players, board, scenes);
+        System.out.println("input num of players: " + numPlayers);
+        System.out.println("number of players made: " + players.length);
+        System.out.println("number of days to play: " + daysToPlay);
+        System.out.println("player names: ");
+        for (Player p  : players) {
+            System.out.println(p.playerName);
+        }
+        System.out.println();
     }
 
     /**
@@ -120,34 +123,16 @@ public class GameController {
         return newPlayers;
     }
 
+
     private boolean isYBetweenXAndZ(int X, int Y, int Z) {
         return X <= Y && Y <= Z;
     }
 
-    //display credits of current player
-    public int getCredits(Player player) {
-        return this.credits;
-    }
+    public void playgame() {
 
-    //display amount of practice chips a player has
-    public int getPChip(Player player) {
-        return this.pChip;
-    }
-
-    //calculating score at the moment
-    public int getScore(Player player) {
-        //todo calc current score
-        return this.score;
-    }
-
-    //see how many counters left on a given scene
-    //***counter could be returned using this.__ or retrieved 
-    public int getCounters(Room room) {
-        return this.remCount;
-    }
-
-    //know how many scenes are left
-    public int scenesLeft() {
-        return this.remScenes;
+        for (int i = daysToPlay; i > 0; i--) {
+//            System.out.println(i);
+            
+        }
     }
 }

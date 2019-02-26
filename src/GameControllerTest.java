@@ -20,7 +20,7 @@ public class GameControllerTest {
 
         for (Player p : plyr) {
             assert (p.playerName != null) : "Name is null";
-            assert (p.getRank() == 1) : "Players starting rank is not 1";
+            assert (p.getRank() >= 1) : "Players starting rank must be at least 1";
             assert (p.getCurrentRoom() == board.rooms.get("Casting Office")) :
                     "Players are not starting in the Casting Office";
         }
