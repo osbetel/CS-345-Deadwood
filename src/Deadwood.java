@@ -12,10 +12,9 @@ public class Deadwood {
 
     public static void main(String[] args) {
         GameController gc = tryMakeGame();
+        gc.playgame();
         System.out.println("it compiles");
         System.out.println("all tests passed");
-
-        gc.playgame();
     }
 
     public static GameController tryMakeGame() {

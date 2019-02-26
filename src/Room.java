@@ -14,7 +14,8 @@ public class Room {
     public Scene currentScene;
     public final String roomName;
     public final int shotCounters;
-    public final Map<String, Role> extraRoles;
+    public final HashMap<String, Role> extraRoles;
+
 
     public Room(String name, int shotCounters, HashMap<String, Role> roles) {
         this.roomName = name;
@@ -22,18 +23,21 @@ public class Room {
         this.extraRoles = roles;
     }
 
-    private void setScene(Scene newScene) {
-        // to be executed when new scenes are dealt
+
+    public void setScene(Scene newScene) {
         this.currentScene = newScene;
     }
+
 
     public void clearScene() {
         this.currentScene = null;
     }
 
+
     public Scene getScene() {
         return this.currentScene;
     }
+
 
     public String getRoomName() {
         return this.roomName;

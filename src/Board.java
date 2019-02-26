@@ -13,8 +13,8 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 public class Board {
-    public HashMap<String, Room> rooms;
-    private int day;
+    private final HashMap<String, Room> rooms;
+    private int numOfScenes;
 
     public Board(int numPlayers) {
 
@@ -25,10 +25,9 @@ public class Board {
             Scanner sc = new Scanner(roomFile);
             //"Room Name", # of shot counters, "Extra Role Name", required rank (integer)
             sc.nextLine(); //Ignore first line of formatting rules
-            while (sc.hasNextLine()){
-                String[] rmData = sc.nextLine().split(";");
-//                System.out.println(Arrays.toString(rmData));
+            while (sc.hasNextLine()) {
 
+                String[] rmData = sc.nextLine().split(";");
                 String rmName = rmData[0];
                 int rmShotCounters = Integer.parseInt(rmData[1].strip());
                 HashMap<String, Role> roles = new HashMap<>();
@@ -52,24 +51,46 @@ public class Board {
         } catch (FileNotFoundException ex) {
             System.out.println(ex);
         }
-
+        numOfScenes = 0;
     }
+
 
     public void newDay(ArrayList<Scene> availableScenes) {
         clearScenes();
         dealScenes(availableScenes);
     }
 
-    private void clearScenes() {
+
+    public void clearScenes() {
         //removes all scenes from all rooms
         for (String rm : rooms.keySet()) {
             rooms.get(rm).clearScene();
         }
     }
 
-    private void dealScenes(ArrayList<Scene> available) {
-        //deal out scene cards / objects to each room. Called at start of a new day
 
+    public void dealScenes(ArrayList<Scene> available) {
+        for (String rm : this.rooms.keySet()) {
+            //todo:select random scene, assign to room, delete from available. Currently takes first scene on list!
+            if (!(rm.equals("Casting Office") || rm.equals("Trailer"))) {
+                this.rooms.get(rm).setScene(available.get(0));
+                available.remove(0);
+            }
+        }
     }
 
+
+    public int getNumOfScenes() {
+        return numOfScenes;
+    }
+
+
+    public void setNumOfScenes(int numOfScenes) {
+        this.numOfScenes = numOfScenes;
+    }
+
+
+    public HashMap<String, Room> getRooms() {
+        return rooms;
+    }
 }

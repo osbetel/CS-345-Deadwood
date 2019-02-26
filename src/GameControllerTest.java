@@ -21,23 +21,21 @@ public class GameControllerTest {
         for (Player p : plyr) {
             assert (p.playerName != null) : "Name is null";
             assert (p.getRank() >= 1) : "Players starting rank must be at least 1";
-            assert (p.getCurrentRoom() == board.rooms.get("Casting Office")) :
+            assert (p.getCurrentRoom() == board.getRooms().get("Trailer")) :
                     "Players are not starting in the Casting Office";
         }
     }
 
 
     public static void testBoard(Board board) {
-        for (String rm : board.rooms.keySet()) {
-            Room room = board.rooms.get(rm);
-//            System.out.println(room.roomName);
+        for (String rm : board.getRooms().keySet()) {
+            Room room = board.getRooms().get(rm);
             assert room.currentScene == null : "Starting scene not null";
             assert room.roomName != null : "Rooms should have non-null names";
             assert room.shotCounters >= 0 : "All rooms have at least 1 shot counter, except Trailer and Casting Office";
-//            assert room.extraRoles.size() >= 0 : "All rooms have at least 1 or more extra role";
         }
-        Room trailer = board.rooms.get("Trailer");
-        Room castingOffice = board.rooms.get("Casting Office");
+        Room trailer = board.getRooms().get("Trailer");
+        Room castingOffice = board.getRooms().get("Casting Office");
         assert trailer instanceof Trailer : "Trailer is a Room object, but not a Trailer object";
         assert castingOffice instanceof CastingOffice : "Casting Office is a Room object, " +
                 "but not a CastingOffice object, meaning it can't be used to check a PLayer's rankUp()";

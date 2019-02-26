@@ -31,7 +31,7 @@ public class Player {
     }
 
 
-    private void move(Room location) {
+    public void move(Room location) {
         //todo: check currentRoom to see if target room is adjacent
         this.currentRoom = location;
     }
@@ -60,8 +60,33 @@ public class Player {
     }
 
 
+    public void setCurrentScene(Scene currentScene) {
+        this.currentScene = currentScene;
+    }
+
+
+    public Role getCurrentRole() {
+        return currentRole;
+    }
+
+
+    public void setCurrentRole(Role r) {
+        currentRole = r;
+    }
+
+
     public int getRank() {
         return dice.getRank();
+    }
+
+
+    public int getCredits() {
+        return credits;
+    }
+
+
+    public int getDollars() {
+        return dollars;
     }
 
 
