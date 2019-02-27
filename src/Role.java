@@ -6,7 +6,6 @@
  */
 
 public class Role {
-    // what does a Role have?
     String title;
     int requiredRank;
     boolean mainRole;

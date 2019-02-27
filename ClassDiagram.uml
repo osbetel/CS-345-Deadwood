@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="906.5020833333334" y="1214.0">Trailer</node>
+    <node x="552.2876529720284" y="406.5">CastingOffice</node>
+    <node x="660.5397363053618" y="1436.0">Board</node>
+    <node x="180.53973630536166" y="2038.0">Deadwood</node>
+    <node x="46.53973630536166" y="1738.0">GameController</node>
+    <node x="596.5397363053617" y="1815.5">GameControllerTest</node>
+    <node x="546.860802478771" y="175.0">Room</node>
+    <node x="146.31890297202835" y="540.0">Player</node>
+    <node x="252.28765297202835" y="1081.0">Scene</node>
+    <node x="365.1108024787712" y="0.0">Role</node>
+    <node x="103.81890297202835" y="406.0">GamePiece</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="Board" target="Role">
+      <point x="89.0625" y="-81.0" />
+      <point x="892.1022363053618" y="1406.0" />
+      <point x="1089.2856567911256" y="1406.0" />
+      <point x="1089.2856567911256" y="135.0" />
+      <point x="514.7108024787713" y="135.0" />
+      <point x="61.60000000000002" y="47.5" />
+    </edge>
+    <edge source="Scene" target="Role">
+      <point x="52.3125" y="-147.5" />
+      <point x="444.10015297202835" y="1061.0" />
+      <point x="453.50640297202835" y="1061.0" />
+      <point x="453.50640297202835" y="155.0" />
+      <point x="461.91080247877113" y="155.0" />
+      <point x="8.799999999999955" y="47.5" />
+    </edge>
+    <edge source="Player" target="Role">
+      <point x="0.0" y="-235.5" />
+      <point x="267.31890297202835" y="145.0" />
+      <point x="426.7108024787712" y="145.0" />
+      <point x="-26.399999999999977" y="47.5" />
+    </edge>
+    <edge source="Deadwood" target="GameController">
+      <point x="-65.5" y="-36.5" />
+      <point x="246.03973630536166" y="2013.0" />
+      <point x="179.03973630536166" y="2013.0" />
+      <point x="-132.5" y="125.0" />
+    </edge>
+    <edge source="Player" target="Scene">
+      <point x="75.625" y="235.5" />
+      <point x="342.94390297202835" y="1061.0" />
+      <point x="339.47515297202835" y="1061.0" />
+      <point x="-52.3125" y="-147.5" />
+    </edge>
+    <edge source="Player" target="GamePiece">
+      <point x="-34.57142857142861" y="-235.5" />
+      <point x="232.74747440059974" y="520.0" />
+      <point x="218.56890297202835" y="520.0" />
+      <point x="38.25" y="37.0" />
+    </edge>
+    <edge source="GameControllerTest" target="CastingOffice">
+      <point x="-29.583333333333258" y="-47.5" />
+      <point x="744.4564029720284" y="1618.0" />
+      <point x="650.0397363053618" y="1618.0" />
+      <point x="650.0397363053618" y="520.0" />
+      <point x="653.5376529720284" y="520.0" />
+      <point x="20.25" y="36.5" />
+    </edge>
+    <edge source="Board" target="Trailer">
+      <point x="53.4375" y="-81.0" />
+      <point x="856.4772363053618" y="1396.0" />
+      <point x="920.8354166666668" y="1396.0" />
+      <point x="-28.66666666666663" y="14.5" />
+    </edge>
+    <edge source="Board" target="Scene">
+      <point x="-124.6875" y="-81.0" />
+      <point x="678.3522363053618" y="1416.0" />
+      <point x="503.3876529720284" y="1416.0" />
+      <point x="111.60000000000002" y="147.5" />
+    </edge>
+    <edge source="GameController" target="Room">
+      <point x="81.53846153846155" y="-125.0" />
+      <point x="393.0781978438232" y="1648.0" />
+      <point x="541.7876529720284" y="1648.0" />
+      <point x="541.7876529720284" y="376.0" />
+      <point x="644.1300332480018" y="376.0" />
+      <point x="-43.23076923076917" y="70.5" />
+    </edge>
+    <edge source="GameController" target="Trailer">
+      <point x="244.61538461538464" y="-125.0" />
+      <point x="556.1551209207463" y="1698.0" />
+      <point x="956.0397363053618" y="1698.0" />
+      <point x="956.0397363053618" y="1396.0" />
+      <point x="949.5020833333334" y="1396.0" />
+      <point x="0.0" y="14.5" />
+    </edge>
+    <edge source="CastingOffice" target="Room">
+      <point x="-40.5" y="-36.5" />
+      <point x="592.7876529720284" y="386.0" />
+      <point x="665.7454178633865" y="386.0" />
+      <point x="-21.615384615384528" y="70.5" />
+    </edge>
+    <edge source="GameControllerTest" target="Room">
+      <point x="147.9166666666666" y="-47.5" />
+      <point x="921.9564029720283" y="1718.0" />
+      <point x="1078.2856567911256" y="1718.0" />
+      <point x="1078.2856567911256" y="336.0" />
+      <point x="817.0531101710787" y="336.0" />
+      <point x="129.69230769230774" y="70.5" />
+    </edge>
+    <edge source="Trailer" target="Room">
+      <point x="-21.5" y="-14.5" />
+      <point x="928.0020833333334" y="1061.0" />
+      <point x="944.0020833333334" y="1061.0" />
+      <point x="944.0020833333334" y="356.0" />
+      <point x="773.8223409403095" y="356.0" />
+      <point x="86.46153846153845" y="70.5" />
+    </edge>
+    <edge source="GameController" target="CastingOffice">
+      <point x="122.30769230769226" y="-125.0" />
+      <point x="433.8474286130539" y="1658.0" />
+      <point x="589.0064029720284" y="1658.0" />
+      <point x="589.0064029720284" y="520.0" />
+      <point x="613.0376529720284" y="520.0" />
+      <point x="-20.25" y="36.5" />
+    </edge>
+    <edge source="GameControllerTest" target="Board">
+      <point x="29.58333333333337" y="-47.5" />
+      <point x="803.623069638695" y="1688.0" />
+      <point x="898.0397363053618" y="1688.0" />
+      <point x="95.0" y="81.0" />
+    </edge>
+    <edge source="Board" target="CastingOffice">
+      <point x="-89.0625" y="-81.0" />
+      <point x="713.9772363053618" y="1416.0" />
+      <point x="717.9083333333334" y="1416.0" />
+      <point x="717.9083333333334" y="520.0" />
+      <point x="694.0376529720284" y="520.0" />
+      <point x="60.75" y="36.5" />
+    </edge>
+    <edge source="Player" target="CastingOffice">
+      <point x="103.71428571428572" y="-235.5" />
+      <point x="371.0331886863141" y="520.0" />
+      <point x="572.5376529720284" y="520.0" />
+      <point x="-60.75" y="36.5" />
+    </edge>
+    <edge source="Board" target="Room">
+      <point x="-17.8125" y="-81.0" />
+      <point x="785.2272363053618" y="1416.0" />
+      <point x="794.6797054507995" y="1416.0" />
+      <point x="794.6797054507995" y="376.0" />
+      <point x="730.5915717095403" y="376.0" />
+      <point x="43.23076923076928" y="70.5" />
+    </edge>
+    <edge source="Room" target="Role">
+      <point x="-70.25" y="-70.5" />
+      <point x="617.110802478771" y="155.0" />
+      <point x="479.51080247877115" y="155.0" />
+      <point x="26.399999999999977" y="47.5" />
+    </edge>
+    <edge source="GameController" target="Scene">
+      <point x="0.0" y="-125.0" />
+      <point x="311.53973630536166" y="1718.0" />
+      <point x="325.19821532634063" y="1718.0" />
+      <point x="325.19821532634063" y="1416.0" />
+      <point x="335.98765297202834" y="1416.0" />
+      <point x="-55.80000000000001" y="147.5" />
+    </edge>
+    <edge source="Room" target="Scene">
+      <point x="-86.46153846153845" y="70.5" />
+      <point x="600.8992640172326" y="356.0" />
+      <point x="491.66024912587454" y="356.0" />
+      <point x="491.66024912587454" y="1061.0" />
+      <point x="478.97515297202835" y="1061.0" />
+      <point x="87.1875" y="-147.5" />
+    </edge>
+    <edge source="GameController" target="Board">
+      <point x="203.8461538461538" y="-125.0" />
+      <point x="515.3858901515155" y="1678.0" />
+      <point x="803.0397363053618" y="1678.0" />
+      <point x="0.0" y="81.0" />
+    </edge>
+    <edge source="GameControllerTest" target="Scene">
+      <point x="-88.75" y="-47.5" />
+      <point x="685.2897363053617" y="1628.0" />
+      <point x="458.0461319930073" y="1628.0" />
+      <point x="458.0461319930073" y="1416.0" />
+      <point x="447.58765297202837" y="1416.0" />
+      <point x="55.80000000000001" y="147.5" />
+    </edge>
+    <edge source="GameControllerTest" target="Player">
+      <point x="-147.91666666666652" y="-47.5" />
+      <point x="626.1230696386951" y="1638.0" />
+      <point x="223.31890297202835" y="1638.0" />
+      <point x="223.31890297202835" y="1061.0" />
+      <point x="252.19390297202835" y="1061.0" />
+      <point x="-15.125" y="235.5" />
+    </edge>
+    <edge source="GameController" target="Role">
+      <point x="-203.84615384615387" y="-125.0" />
+      <point x="107.69358245920779" y="1708.0" />
+      <point x="37.0" y="1708.0" />
+      <point x="37.0" y="125.0" />
+      <point x="391.51080247877115" y="125.0" />
+      <point x="-61.60000000000002" y="47.5" />
+    </edge>
+    <edge source="GameController" target="Player">
+      <point x="-163.0769230769231" y="-125.0" />
+      <point x="148.46281322843856" y="1718.0" />
+      <point x="145.0" y="1718.0" />
+      <point x="145.0" y="1031.0" />
+      <point x="161.44390297202835" y="1031.0" />
+      <point x="-105.875" y="235.5" />
+    </edge>
+    <edge source="Player" target="Room">
+      <point x="69.14285714285711" y="-235.5" />
+      <point x="336.46176011488546" y="510.0" />
+      <point x="480.66024912587454" y="510.0" />
+      <point x="480.66024912587454" y="346.0" />
+      <point x="579.2838794018479" y="346.0" />
+      <point x="-108.0769230769231" y="70.5" />
+    </edge>
+    <edge source="GameControllerTest" target="Trailer">
+      <point x="88.74999999999997" y="-47.5" />
+      <point x="862.7897363053617" y="1708.0" />
+      <point x="1035.7856567911256" y="1708.0" />
+      <point x="1035.7856567911256" y="1396.0" />
+      <point x="978.16875" y="1396.0" />
+      <point x="28.66666666666663" y="14.5" />
+    </edge>
+    <edge source="Scene" target="Player">
+      <point x="-87.1875" y="-147.5" />
+      <point x="304.60015297202835" y="1061.0" />
+      <point x="312.69390297202835" y="1061.0" />
+      <point x="45.375" y="235.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.39727891156462586" x="1106.5" y="1082.5" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>Project Files</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

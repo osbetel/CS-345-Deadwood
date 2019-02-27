@@ -8,6 +8,9 @@
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+/**
+ * Main kicker class to start the game.
+ */
 public class Deadwood {
 
     public static void main(String[] args) {
@@ -17,6 +20,10 @@ public class Deadwood {
         System.out.println("all tests passed");
     }
 
+    /**
+     * Performs some checks and then makes a game.
+     * @return A GameController object.
+     */
     public static GameController tryMakeGame() {
         //Capture initial input of the number of players
         int num = 4; //Default case

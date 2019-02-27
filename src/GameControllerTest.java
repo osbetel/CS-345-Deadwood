@@ -7,6 +7,9 @@
 
 import java.util.ArrayList;
 
+/**
+ * Just for testing
+ */
 public class GameControllerTest {
 
     /**

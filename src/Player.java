@@ -6,6 +6,7 @@
  */
 
 import java.io.InvalidObjectException;
+import java.util.Random;
 
 public class Player {
 
@@ -18,6 +19,10 @@ public class Player {
     private Room currentRoom;
     private Scene currentScene;
     private Role currentRole;
+    private int practiceChips;
+
+    private boolean hasMoved;
+    private boolean hasTakenRole;
 
 
     public Player(String name, int startingRank,
@@ -26,13 +31,15 @@ public class Player {
         credits = startingCredits;
         dollars = startingDollars;
         dice = new GamePiece(startingRank);
+        practiceChips = 0;
 
         currentRoom = startingRoom;
+        hasMoved = false;
+        hasTakenRole = !(this.getCurrentRole() == null);
     }
 
 
     public void move(Room location) {
-        //todo: check currentRoom to see if target room is adjacent
         this.currentRoom = location;
     }
 
@@ -46,7 +53,6 @@ public class Player {
 
     private void doNothing() {
         // player takes no action
-        // add something to remove their turn
         System.out.println("On to the next player's turn!");
     }
 
@@ -91,11 +97,83 @@ public class Player {
     }
 
 
-    public double getTotalValue() {
-        return -1.0;
+    public int getScore() {
+        return credits + dollars + dice.getRank() * 5;
     }
 
 
+    public boolean getHasMoved() {
+        return hasMoved || currentScene != null;
+    }
+
+
+    public void setHasMoved(boolean hasMoved) {
+        this.hasMoved = hasMoved;
+    }
+
+    public boolean getHasTakenRole() {
+        return hasTakenRole;
+    }
+
+
+    public void setHasTakenRole(boolean hasTakenRole) {
+        this.hasTakenRole = hasTakenRole;
+    }
+
+
+    public int getPracticeChips() {
+        return this.practiceChips;
+    }
+
+    /**
+     * Called from parseInput() in the GameController by a player.
+     */
+    public void rehearse() {
+        practiceChips += 1;
+        hasMoved = true;    //both set to true ends a player's turn
+        hasTakenRole = true;
+    }
+
+
+    /**
+     * Takes an integer from a rolled die as input, determines if the player succeeds or fails a shot.
+     * If success, decrements counter, adds credits, etc.
+     * If scene shots go to 0, calls wrapScene()
+     * @param rolledDie integer
+     * @return returns true/false based on player success or fail
+     */
+    public boolean act(int rolledDie) {
+        //todo implement differentiation between extra roles and main roles
+        hasMoved = true;
+        hasTakenRole = true;
+        if (currentScene.budget <= rolledDie + practiceChips) {
+            //acting successful
+            credits += 2;
+            currentScene.setCounter(currentScene.getCounter() - 1);
+            if (currentScene.getCounter() == 0) {
+                currentScene.wrapScene();
+            }
+            return true;
+        }
+        return false;
+    }
+
+
+    public void addDollars(int dollars) {
+        this.dollars += dollars;
+    }
+
+
+    public void addCredits(int credits) {
+        this.credits += credits;
+    }
+
+
+    /**
+     * Checks if a player is in the CastingOffice, if they are, checks money or credits (specified by input)
+     * Then ranks up a player
+     * @param usingCredits True if using credits, false otherwise
+     */
     public void rankUp(boolean usingCredits) {
 
         int currentRank = getRank();
@@ -103,7 +181,7 @@ public class Player {
             System.out.println("You're already the maximum rank!");
         }
 
-        if (currentRoom instanceof CastingOffice) {
+        if (!(currentRoom instanceof CastingOffice)) {
             System.out.println("You must be in the Casting Office to rank up!");
         } else {
 

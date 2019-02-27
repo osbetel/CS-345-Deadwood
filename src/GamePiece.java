@@ -5,6 +5,9 @@
  * Deadwood
  */
 
+/**
+ * GamePiece class seems slightly redundant. May remove this in part 3.
+ */
 public class GamePiece {
 
     private int rank;

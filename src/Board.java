@@ -8,7 +8,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -16,6 +15,10 @@ public class Board {
     private final HashMap<String, Room> rooms;
     private int numOfScenes;
 
+    /**
+     * Board constructor. Also constructs the Rooms (Board can't exist without rooms)
+     * @param numPlayers An integer specifying the number of players.
+     */
     public Board(int numPlayers) {
 
         // setup rooms
@@ -33,10 +36,10 @@ public class Board {
                 HashMap<String, Role> roles = new HashMap<>();
 
                 for (int j = 2; j < rmData.length; j += 2) {
-                    Role r = new Role(rmData[j],
+                    Role r = new Role(rmData[j].strip(),
                             Integer.parseInt(rmData[j + 1].strip()),
                             false);
-                    roles.put(rmData[j], r);
+                    roles.put(rmData[j].strip(), r);
                 }
 
                 //Now we have a string name, int shotcounters, and a map of <string roles, int rank>
@@ -51,13 +54,18 @@ public class Board {
         } catch (FileNotFoundException ex) {
             System.out.println(ex);
         }
-        numOfScenes = 0;
+        numOfScenes = 0;    //haven't dealt scenes yet
     }
 
 
+    /**
+     * Clears the board and deals new scenes.
+     * @param availableScenes
+     */
     public void newDay(ArrayList<Scene> availableScenes) {
         clearScenes();
         dealScenes(availableScenes);
+        numOfScenes = 10;
     }
 
 
@@ -70,11 +78,23 @@ public class Board {
 
 
     public void dealScenes(ArrayList<Scene> available) {
+
+//        if (true) {
+//            this.rooms.get("Church").setScene(available.get(0));
+//            this.rooms.get("Bank").setScene(available.get(1));
+//
+//            this.rooms.get("Church").getScene().setCounter(this.rooms.get("Church").shotCounters);
+//            this.rooms.get("Bank").getScene().setCounter(this.rooms.get("Bank").shotCounters);
+//
+//            return;
+//        }
+
         for (String rm : this.rooms.keySet()) {
-            //todo:select random scene, assign to room, delete from available. Currently takes first scene on list!
+            //todo:select random scene, assign to room, delete from available. Currently takes first scene on list
             if (!(rm.equals("Casting Office") || rm.equals("Trailer"))) {
                 this.rooms.get(rm).setScene(available.get(0));
                 available.remove(0);
+                this.rooms.get(rm).getScene().setCounter(this.rooms.get(rm).shotCounters);
             }
         }
     }
@@ -87,6 +107,17 @@ public class Board {
 
     public void setNumOfScenes(int numOfScenes) {
         this.numOfScenes = numOfScenes;
+    }
+
+
+    public Scene getFinalScene() {
+        for (String r : rooms.keySet()) {
+            Room curr = rooms.get(r);
+            if (curr.currentScene != null) {
+                return curr.currentScene;
+            }
+        }
+        return null;
     }
 
 
