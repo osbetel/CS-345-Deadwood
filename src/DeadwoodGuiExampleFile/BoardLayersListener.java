@@ -31,7 +31,7 @@ public class BoardLayersListener extends JFrame {
   JButton mUpgrade; //to upgrade with money
 
   static int playerNum;
-  Player[] players;
+  //Player[] players;
   
   // JLayered Pane
   JLayeredPane bPane;
@@ -199,9 +199,9 @@ public class BoardLayersListener extends JFrame {
       }
    }
 
-   public void createPlayers(Player[] players) {
+   //public void createPlayers(Player[] players) {
     //create players based off of playerNum along with their icons
-   }
+   //}
 
 
 
