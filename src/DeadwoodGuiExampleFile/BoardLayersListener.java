@@ -204,15 +204,15 @@ public class BoardLayersListener extends JFrame {
    //}
 
 
-
-  public static void main(String[] args) {
-  
-    BoardLayersListener board = new BoardLayersListener();
-    board.setVisible(true);
-    
-    // Take input from the user about number of players
-    String input = (String)JOptionPane.showInputDialog(board, "How many players?");
-
-    Integer playerNum = Integer.parseInt(input);
-  }
+//
+//  public static void main(String[] args) {
+//
+//    BoardLayersListener board = new BoardLayersListener();
+//    board.setVisible(true);
+//
+//    // Take input from the user about number of players
+//    String input = (String)JOptionPane.showInputDialog(board, "How many players?");
+//
+//    Integer playerNum = Integer.parseInt(input);
+//  }
 }
