@@ -19,9 +19,15 @@ public class UserView extends JFrame {
     JLayeredPane bPane;
 
     JLabel boardlabel;
+    JLabel statsInfo;
+    JLabel rules;
+    JLabel parts;
 
     JButton stats;
 
+    //changing background color
+    //system print out on screen JFrame
+    //player stats system print
 
     public UserView() {
         // Set the title of the JFrame
@@ -34,24 +40,45 @@ public class UserView extends JFrame {
 
         // Create the deadwood board
         boardlabel = new JLabel();
-        ImageIcon icon = new ImageIcon("board.jpg"); //936 by 702
+        ImageIcon icon = new ImageIcon("board0.jpg"); //936 by 702
         boardlabel.setIcon(icon);
-        boardlabel.setBounds(250, 0, icon.getIconWidth(), icon.getIconHeight());
+        boardlabel.setBounds(150, 0, icon.getIconWidth(), icon.getIconHeight());
 
         // Add the board to the lowest layer
         bPane.add(boardlabel, new Integer(0));
 
         // Set the size of the GUI
-        setSize(icon.getIconWidth() + 250, icon.getIconHeight());
+        setSize(icon.getIconWidth() + 150, icon.getIconHeight());
 
         //creates action button
         stats = new JButton("Player Stat");
         stats.setBackground(Color.white);
-        stats.setBounds(10, 341,100, 20); //x: icon.getIconWidth()+10
+        stats.setBounds(25, 341,100, 20); //x: icon.getIconWidth()+10
         stats.addMouseListener(new boardMouseListener());
 
         //adds button onto upper layer
         bPane.add(stats, new Integer(2));
+
+        //Creats player stats info onto board
+        statsInfo = new JLabel("Here's your player info....");
+        statsInfo.setBounds(3,365,125,20);
+        //mLabel.setBounds(icon.getIconWidth()+40,0,100,20);
+        statsInfo.setVisible(false);
+        bPane.add(statsInfo,new Integer(2));
+
+        //creats rules at the top
+        //can edit which rules to display
+        rules = new JLabel("<html><u>Welcome to Deadwood</u><br/>Here's some of the few basic rules<br/> -Can only move to adjacent rooms <br/>-In a room, you can be an extra or a lead <br/> Can add more </html>", SwingConstants.CENTER);
+        rules.setBounds(3,10,125,160);
+        //mLabel.setBounds(icon.getIconWidth()+40,0,100,20);
+        bPane.add(rules,new Integer(2));
+
+        //defines act, rehearse, move
+        parts = new JLabel("<html><b>Act:</b> *insert acting rules <br/><b>Rehearse:</b> *insert rehearsing rules*<br/><b> Move: </b> Can choose to move to an adjacent room & take a role</html>");
+        parts.setBounds(3,160,125,150);
+        //mLabel.setBounds(icon.getIconWidth()+40,0,100,20);
+        bPane.add(parts,new Integer(2));
+
     }
 
 
@@ -61,8 +88,8 @@ public class UserView extends JFrame {
         public void mouseClicked(MouseEvent e) {
 
             if (e.getSource()== stats){
-                //playerlabel.setVisible(true);
-                System.out.println("Here's your player info....\n");
+                statsInfo.setVisible(true);
+                // System.out.println("Here's your player info....\n Money: " + Player.getScore() + "\n ");
             }
         }
         public void mousePressed(MouseEvent e) {

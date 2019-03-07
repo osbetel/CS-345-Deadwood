@@ -48,7 +48,7 @@ public class BoardLayersListener extends JFrame {
     
        // Create the deadwood board
        boardlabel = new JLabel();
-       ImageIcon icon =  new ImageIcon("board.jpg");
+       ImageIcon icon =  new ImageIcon("board0.jpg");
        boardlabel.setIcon(icon); 
        boardlabel.setBounds(100,0,icon.getIconWidth(),icon.getIconHeight());
       
@@ -143,17 +143,17 @@ public class BoardLayersListener extends JFrame {
    }
    */
 
-//
-//  public static void main(String[] args) {
-//
-//    BoardLayersListener board = new BoardLayersListener();
-//    board.setVisible(true);
-//
-//    // Take input from the user about number of players
-//    String input = (String)JOptionPane.showInputDialog(board, "How many players?");
-//
-//    Integer playerNum = Integer.parseInt(input);
-//  }
+
+  public static void main(String[] args) {
+
+    BoardLayersListener board = new BoardLayersListener();
+    board.setVisible(true);
+
+    // Take input from the user about number of players
+    String input = (String)JOptionPane.showInputDialog(board, "How many players?");
+
+    Integer playerNum = Integer.parseInt(input);
+  }
 
 }
 

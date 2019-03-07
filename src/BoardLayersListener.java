@@ -26,10 +26,6 @@ public class BoardLayersListener extends JFrame {
   JButton bAct;
   JButton bRehearse;
   JButton bMove;
-
-
-  static int playerNum;
-  //Player[] players;
   
   // JLayered Pane
   JLayeredPane bPane;
@@ -42,15 +38,16 @@ public class BoardLayersListener extends JFrame {
        super("Deadwood");
        // Set the exit option for the JFrame
        setDefaultCloseOperation(EXIT_ON_CLOSE);
-      
+
+       //SUBTRACT 45 OFF OF Y COORDINATES
        // Create the JLayeredPane to hold the display, cards, dice and buttons
        bPane = getLayeredPane();
     
        // Create the deadwood board
        boardlabel = new JLabel();
-       ImageIcon icon =  new ImageIcon("board.jpg");
+       ImageIcon icon =  new ImageIcon("board0.jpg");
        boardlabel.setIcon(icon); 
-       boardlabel.setBounds(100,0,icon.getIconWidth(),icon.getIconHeight());
+       boardlabel.setBounds(0,0,icon.getIconWidth(),icon.getIconHeight());
       
        // Add the board to the lowest layer
        bPane.add(boardlabel, new Integer(0));
@@ -68,38 +65,38 @@ public class BoardLayersListener extends JFrame {
        // Add the card to the lower layer
        bPane.add(cardlabel, new Integer(1));
        
+      
 
-
+    
        // Add a dice to represent a player. 
        // Role for Crusty the prospector. The x and y co-ordiantes are taken from Board.xml file
        playerlabel = new JLabel();
        ImageIcon pIcon = new ImageIcon("r2.png");
        playerlabel.setIcon(pIcon);
        //playerlabel.setBounds(114,227,pIcon.getIconWidth(),pIcon.getIconHeight());  
-       playerlabel.setBounds(114,227,46,46); //
+       playerlabel.setBounds(114,227,46,46);
        playerlabel.setVisible(false);
        bPane.add(playerlabel,new Integer(3));
       
        // Create the Menu for action buttons
        mLabel = new JLabel("MENU");
-       mLabel.setBounds(0,0,100,20);
-       //mLabel.setBounds(icon.getIconWidth()+40,0,100,20);
+       mLabel.setBounds(icon.getIconWidth()+40,0,100,20);
        bPane.add(mLabel,new Integer(2));
 
        // Create Action buttons
        bAct = new JButton("ACT");
        bAct.setBackground(Color.white);
-       bAct.setBounds(0, 30,100, 20); //x: icon.getIconWidth()+10
+       bAct.setBounds(icon.getIconWidth()+10, 30,100, 20);
        bAct.addMouseListener(new boardMouseListener());
        
        bRehearse = new JButton("REHEARSE");
        bRehearse.setBackground(Color.white);
-       bRehearse.setBounds(0,60,100, 20);
+       bRehearse.setBounds(icon.getIconWidth()+10,60,100, 20);
        bRehearse.addMouseListener(new boardMouseListener());
        
        bMove = new JButton("MOVE");
        bMove.setBackground(Color.white);
-       bMove.setBounds(0,90,100, 20);
+       bMove.setBounds(icon.getIconWidth()+10,90,100, 20);
        bMove.addMouseListener(new boardMouseListener());
 
        // Place the action buttons in the top layer
@@ -135,78 +132,14 @@ public class BoardLayersListener extends JFrame {
       public void mouseExited(MouseEvent e) {
       }
    }
-/*
-   public void createPlayers(Player[] players) {
-    //create players based off of playerNum along with their icons
-    players = new JLabel[playerNum];
 
-   }
-   */
 
-//
-//  public static void main(String[] args) {
-//
-//    BoardLayersListener board = new BoardLayersListener();
-//    board.setVisible(true);
-//
-//    // Take input from the user about number of players
-//    String input = (String)JOptionPane.showInputDialog(board, "How many players?");
-//
-//    Integer playerNum = Integer.parseInt(input);
-//  }
-
+  public static void main(String[] args) {
+  
+    BoardLayersListener board = new BoardLayersListener();
+    board.setVisible(true);
+    
+    // Take input from the user about number of players
+    JOptionPane.showInputDialog(board, "How many players?"); 
+  }
 }
-
-
-        /*
-        copied here to know the locations of these cards (from xml file)
-
-        Train Station
-         Crusty Prospector              playerlabel.setBounds(114,227,46,46); lvl 1
-         Dragged by Train               playerlabel.setBounds(51,268,46,46); lvl 1
-         Role for Preacher with Bag     playerlabel.setBounds(114,320,46,46); lvl 2
-         Role for Cyrus the Gunfighter  playerlabel.setBounds(49,356,46,46); lvl 4
-
-       Secret Hideout
-        Clumsy Pit Fighter  playerlabel.setBounds(435,719,46,46); lvl 1
-        Thug with Knife     playerlabel.setBounds(521,719,46,46); lvl 2
-        Dangerous Tom       playerlabel.setBounds(435,808,46,46); lvl 3
-        Penny, who is lost  playerlabel.setBounds(521,808,46,46); lvl 3
-
-       Church
-        Dead man        playerlabel.setBounds(857,730,46,46); lvl 1
-        Crying Woman    playerlabel.setBounds(858,809,46,46); lvl 2
-
-       Hotel
-        Sleeping Drunkard       playerlabel.setBounds(1111,469,46,46); lvl 1
-        Faro Player             playerlabel.setBounds(1044,509,46,46); lvl 1
-        Falls from Balcony      playerlabel.setBounds(1111,557,46,46); lvl  2
-        Australian Bartneder    playerlabel.setBounds(1046,596,46,46); lvl 3
-
-       Main Street
-        Railword Worker         playerlabel.setBounds(637,22,46,46); lvl 1
-        Falls of Roof           playerlabel.setBounds(720,22,46,46); lvl 2
-        Woman in Black Dress    playerlabel.setBounds(637,105,46,46); lvl 2
-        Mayor McGinty           playerlabel.setBounds(720,105,46,46); lvl 4
-
-       Jail
-        Prisoner In Cell        playerlabel.setBounds(519,25,46,46); lvl 2
-        Feller in Irons         playerlabel.setBounds(519,105,46,46); lvl 3
-
-       General Store
-        Man in Overalls     playerlabel.setBounds(236,276,46,46); lvl 1
-        Mister Keach        playerlabel.setBounds(236,358,46,46); lvl 3
-
-       Ranch
-        Shot in Leg     playerlabel.setBounds(412,608,46,46); lvl 1
-        Saucy Fred      playerlabel.setBounds(488,525,46,46); lvl 2
-        Man Under Horse playerlabel.setBounds(488,525,46,46); lvl 3
-
-       Bank
-        Suspicious Gentleman    playerlabel.setBounds(911,470,46,46); lvl 3
-        Flustered Teller        playerlabel.setBounds(911,470,46,46); lvl 3
-
-       Saloon
-        Reluctant Farmer    playerlabel.setBounds(877,352,46,46); lvl 1
-        Woman in Red Dress  playerlabel.setBounds(877,276,46,46); lvl 2
-      */
