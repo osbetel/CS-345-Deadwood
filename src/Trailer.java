@@ -8,7 +8,7 @@
 public class Trailer extends Room {
 
     public Trailer() {
-        super("Trailer", 0, null);
+        super("Trailer", null, null, null, new int[]{991,248,194,201});
         //The purpose of this class is because Trailer is a special room
         //players return specifically to this room at the end of a day
     }
