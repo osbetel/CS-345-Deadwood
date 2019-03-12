@@ -5,8 +5,10 @@
  * Deadwood
  */
 
+import javax.xml.stream.XMLStreamException;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
@@ -19,42 +21,25 @@ public class Board {
      * Board constructor. Also constructs the Rooms (Board can't exist without rooms)
      * @param numPlayers An integer specifying the number of players.
      */
+    @SuppressWarnings("Check the typecast in the Board constructor if there are errors")
     public Board(int numPlayers) {
 
         // setup rooms
-        this.rooms = new HashMap<>();
+        HashMap<String, Room> rms = null;
         try {
-            File roomFile = new File("Assets/rooms.txt");
-            Scanner sc = new Scanner(roomFile);
-            //"Room Name", # of shot counters, "Extra Role Name", required rank (integer)
-            sc.nextLine(); //Ignore first line of formatting rules
-            while (sc.hasNextLine()) {
-
-                String[] rmData = sc.nextLine().split(";");
-                String rmName = rmData[0];
-                int rmShotCounters = Integer.parseInt(rmData[1].strip());
-                HashMap<String, Role> roles = new HashMap<>();
-
-                for (int j = 2; j < rmData.length; j += 2) {
-                    Role r = new Role(rmData[j].strip(),
-                            Integer.parseInt(rmData[j + 1].strip()),
-                            false);
-                    roles.put(rmData[j].strip(), r);
-                }
-
-                //Now we have a string name, int shotcounters, and a map of <string roles, int rank>
-                if (rmName.equals("Trailer")) {
-                    this.rooms.put(rmName, new Trailer());
-                } else if (rmName.equals("Casting Office")) {
-                    this.rooms.put(rmName, new CastingOffice());
-                } else {
-                    this.rooms.put(rmName, new Room(rmName, rmShotCounters, roles));
-                }
-            }
-        } catch (FileNotFoundException ex) {
+            rms = (HashMap<String, Room>) ParseXML.parseXML("Assets/board.xml", true);
+        } catch (XMLStreamException ex) {
             System.out.println(ex);
+            System.exit(1);
+        } catch (IOException ex) {
+            System.out.println(ex);
+            System.exit(1);
         }
-        numOfScenes = 0;    //haven't dealt scenes yet
+        this.rooms = rms;
+//        System.out.println("In Board class, line 39");
+//        for (String r : rooms.keySet()) {
+//            rooms.get(r).properties();
+//        }
     }
 
 
@@ -94,7 +79,7 @@ public class Board {
             if (!(rm.equals("Casting Office") || rm.equals("Trailer"))) {
                 this.rooms.get(rm).setScene(available.get(0));
                 available.remove(0);
-                this.rooms.get(rm).getScene().setCounter(this.rooms.get(rm).shotCounters);
+//                this.rooms.get(rm).getScene().setCounter(this.rooms.get(rm).shotCounters);
             }
         }
     }

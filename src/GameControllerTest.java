@@ -35,7 +35,7 @@ public class GameControllerTest {
             Room room = board.getRooms().get(rm);
             assert room.currentScene == null : "Starting scene not null";
             assert room.roomName != null : "Rooms should have non-null names";
-            assert room.shotCounters >= 0 : "All rooms have at least 1 shot counter, except Trailer and Casting Office";
+            assert room.shotCounters.size() >= 0 : "All rooms have at least 1 shot counter, except Trailer and Casting Office";
         }
         Room trailer = board.getRooms().get("Trailer");
         Room castingOffice = board.getRooms().get("Casting Office");

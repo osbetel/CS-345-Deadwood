@@ -27,17 +27,15 @@ public class GameController {
         this.scenes = createScenes();
         this.players = makePlayers(numPlayers);
 
-//        TESTING CODE
-//        System.out.println();
-//        GameControllerTest.testAll(players, board, scenes);
-//        System.out.println("input num of players: " + numPlayers);
-//        System.out.println("number of players made: " + players.length);
-//        System.out.println("number of days to play: " + daysToPlay);
-//        System.out.println("player names: ");
-//        for (Player p  : players) {
-//            System.out.println(p.playerName);
-//        }
-//        System.out.println();
+    }
+
+    //Test constructor
+    public GameController() {
+        this.board = new Board(2);
+        this.scenes = createScenes();
+        this.players = new Player[2];
+        players[0] = new Player("a", 1, 0, 0, null);
+        players[1] = new Player("b", 1, 0, 0, null);
     }
 
     /**

@@ -40,7 +40,7 @@ public class UserView extends JFrame {
 
         // Create the deadwood board
         boardlabel = new JLabel();
-        ImageIcon icon = new ImageIcon("board0.jpg"); //936 by 702
+        ImageIcon icon = new ImageIcon("Assets/board0.jpg"); //936 by 702
         boardlabel.setIcon(icon);
         boardlabel.setBounds(150, 0, icon.getIconWidth(), icon.getIconHeight());
 
@@ -107,7 +107,7 @@ public class UserView extends JFrame {
         UserView board = new UserView();
         board.setVisible(true);
 
-        // Take input from the user about number of players
+        // Take input from the user abouty number of players
         String input = (String)JOptionPane.showInputDialog(board, "How many players?");
 
         Integer playerNum = Integer.parseInt(input);

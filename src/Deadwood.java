@@ -15,9 +15,13 @@ public class Deadwood {
 
     public static void main(String[] args) {
         GameController gc = tryMakeGame();
-        gc.playgame();
+//        gc.playgame();
         System.out.println("it compiles");
         System.out.println("all tests passed");
+        UserView uv = new UserView();
+        uv.show();
+
+//        GameController gc = new GameController();
     }
 
     /**
