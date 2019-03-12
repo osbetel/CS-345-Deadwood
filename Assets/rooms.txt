@@ -1,4 +1,4 @@
-//Room Name; # of shot counters; coordinate x; coordinate y; Extra Role Name; required rank (integer)
+//Room Name; # of shot counters; coordinate x (on board); coordinate y (on board); Extra Role Name; required rank (integer)
 Train Station; 3; 171; 111; Crusty Prospector; 1; Dragged by Train; 1; Preacher with Bag; 2; Cyrus the Gunfighter; 4
 Jail; 1; 430; 71; Prisoner in Cell; 2; Feller in Irons; 3
 General Store; 2; 520; 326; Man in Overalls; 1; Mister Keach; 3
