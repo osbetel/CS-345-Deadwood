@@ -149,10 +149,10 @@ public class Player {
         if (currentScene.budget <= rolledDie + practiceChips) {
             //acting successful
             credits += 2;
-            currentScene.setCounter(currentScene.getCounter() - 1);
-            if (currentScene.getCounter() == 0) {
-                currentScene.wrapScene();
-            }
+//            currentScene.setCounter(currentScene.getCounter() - 1);
+//            if (currentScene.getCounter() == 0) {
+//                currentScene.wrapScene();
+//            }
             return true;
         }
         return false;

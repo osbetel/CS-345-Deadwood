@@ -9,10 +9,12 @@ public class Role {
     String title;
     int requiredRank;
     boolean mainRole;
+    int[] area;
 
-    public Role(String title, int requiredRank, boolean isOnCardRole) {
+    public Role(String title, int requiredRank, boolean isOnCardRole, int[] area) {
         this.title = title;
         this.requiredRank = requiredRank;
         this.mainRole = isOnCardRole;
+        this.area = area;
     }
 }

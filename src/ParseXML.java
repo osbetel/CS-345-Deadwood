@@ -29,15 +29,23 @@ public class ParseXML {
         Object o;
         if (isInputRooms) {
             o = new HashMap<String, Room>();
+            try {
+                sr = factory.createXMLStreamReader(fis);
+                readRooms(sr, (HashMap<String, Room>) o);
+            } finally {
+                if (sr != null) {
+                    sr.close();
+                }
+            }
         } else {
             o = new ArrayList<Scene>();
-        }
-        try {
-            sr = factory.createXMLStreamReader(fis);
-            readRooms(sr, (HashMap<String, Room>) o);
-        } finally {
-            if (sr != null) {
-                sr.close();
+            try {
+                sr = factory.createXMLStreamReader(fis);
+                readScenes(sr, (ArrayList<Scene>) o);
+            } finally {
+                if (sr != null) {
+                    sr.close();
+                }
             }
         }
         return o;
@@ -93,9 +101,9 @@ public class ParseXML {
                         case "part":
                             String partName = sr.getAttributeValue(null, "name");
                             int reqRank = Integer.parseInt(sr.getAttributeValue(null, "level"));
-//                            int[] area = readArea(sr); //todo fix
-//                            String line = readLine(sr); //todo fix
-                            extraRoles.put(partName, new Role(partName, reqRank, false));
+                            //int[] area = readArea(sr); //todo fix
+                            //String line = readLine(sr); //todo fix
+                            extraRoles.put(partName, new Role(partName, reqRank, false, null));
                             break;
                     }
 
@@ -114,7 +122,6 @@ public class ParseXML {
                     break;
             }
         }
-//        throw new XMLStreamException("Premature end of file");
     }
 
     private static int[] readArea(XMLStreamReader sr) throws XMLStreamException {
@@ -133,5 +140,66 @@ public class ParseXML {
         sr.next();
         String s = sr.getElementText();
         return s;
+    }
+
+    private static void readScenes(XMLStreamReader sr, ArrayList<Scene> scenes) throws XMLStreamException {
+
+        //For Scene objects
+        String sceneName = "";
+        String filePath = "";
+        int budget = -1;
+        int sceneNum = -1;
+        String sceneText = "";
+        HashMap<String, Role> roles = new HashMap<>();
+
+        //For Role objects
+        String roleName = "";
+        int reqRank = -1;
+        int[] area = new int[4];
+
+        while (sr.hasNext()) {
+
+            int eventType = sr.next();
+
+            switch (eventType) {
+
+                case XMLStreamReader.START_ELEMENT:
+
+                    String elementName = sr.getLocalName();
+
+                    switch (elementName) {
+                        case "card":
+                            sceneName = sr.getAttributeValue(null, "name");
+                            filePath = "Assets/cards/" + sr.getAttributeValue(null, "img");
+                            budget = Integer.parseInt(sr.getAttributeValue(null, "budget"));
+                            break;
+                        case "scene":
+                            sceneNum = Integer.parseInt(sr.getAttributeValue(null, "number"));
+                            sceneText = sr.getElementText();
+                            break;
+                        case "part":
+                            roleName = sr.getAttributeValue(null, "name");
+                            reqRank = Integer.parseInt(sr.getAttributeValue(null, "level"));
+                            break;
+
+                    }
+                    break;
+                case XMLStreamReader.END_ELEMENT:
+                    if (sr.getLocalName().equalsIgnoreCase("card")) {
+                        scenes.add(new Scene(sceneName, filePath, budget, sceneNum, sceneText, roles));
+                        sceneName = "";
+                        budget = -1;
+                        sceneNum = -1;
+                        roles = new HashMap<>();
+                    } else if (sr.getLocalName().equalsIgnoreCase("part")) {
+                        //int[] area = readArea(sr); //todo fix
+                        //String line = readLine(sr); //todo fix
+                        roles.put(roleName, new Role(roleName, reqRank, true, null));
+                        roleName = "";  //probably unnecessary
+                        reqRank = -1;
+                    }
+                    break;
+            }
+        }
     }
 }

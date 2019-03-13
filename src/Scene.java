@@ -5,23 +5,27 @@ import java.util.*;
  * Scene class represents a Scene card.
  */
 public class Scene {
-    public final int sceneNumber;
     public final String sceneName;
+    public final String filepath;
     public final int budget;
+    public final int sceneNumber;
+    public final String text;
     public final HashMap<String, Role> roles;   //Remember that Rooms and Scenes each have their own Roles
-    public int shotCounters;
 
     public boolean payout;
     public ArrayList<Player> playersOnScene;
 
-    public Scene(int sceneNumber, String sceneName,
-                 int budget, HashMap<String, Role> roles) {
-        this.sceneNumber = sceneNumber;
+    public Scene(String sceneName, String filepath, int budget,
+                 int sceneNumber, String text, HashMap<String, Role> roles) {
         this.sceneName = sceneName;
+        this.filepath = filepath;
         this.budget = budget;
+        this.sceneNumber = sceneNumber;
+        this.text = text;
         this.roles = roles;
-        this.payout = true;
-        this.playersOnScene = new ArrayList<>();
+
+        payout = true; //all scenes payout except the last scene of the day
+        playersOnScene = new ArrayList<>(); //empty at first
     }
 
 
@@ -89,13 +93,4 @@ public class Scene {
         this.payout = payout;
     }
 
-
-    public void setCounter(int num) {
-        this.shotCounters = num;
-    }
-
-
-    public int getCounter() {
-        return shotCounters;
-    }
 }
