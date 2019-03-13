@@ -5,13 +5,12 @@
  * Deadwood
  */
 
-import java.io.InvalidObjectException;
-import java.util.Random;
-
 public class Player {
 
-    private GamePiece dice;
     public final String playerName;
+    private GamePiece dice;
+    private final String color;
+    private final int playerNum;
 
     private int dollars;
     private int credits;
@@ -25,12 +24,14 @@ public class Player {
     private boolean hasTakenRole;
 
 
-    public Player(String name, int startingRank,
-                  int startingDollars, int startingCredits, Room startingRoom) {
+    public Player(String name, int startingRank, int startingDollars,
+                  int startingCredits, Room startingRoom, String startingColor, int num) {
         playerName = name;
-        credits = startingCredits;
-        dollars = startingDollars;
         dice = new GamePiece(startingRank);
+        dollars = startingDollars;
+        credits = startingCredits;
+        color = startingColor;
+        playerNum = num;
         practiceChips = 0;
 
         currentRoom = startingRoom;
@@ -51,11 +52,13 @@ public class Player {
     }
 
 
-    private void doNothing() {
-        // player takes no action
-        System.out.println("On to the next player's turn!");
+    public int getPlayerNum() {
+        return playerNum;
     }
 
+    public String getPlayerIcon() {
+        return "Assets/dice/" + color + dice.getRank() +".png";
+    }
 
     public Room getCurrentRoom() {
         return currentRoom;
@@ -134,7 +137,6 @@ public class Player {
         hasTakenRole = true;
     }
 
-
     /**
      * Takes an integer from a rolled die as input, determines if the player succeeds or fails a shot.
      * If success, decrements counter, adds credits, etc.
@@ -158,16 +160,13 @@ public class Player {
         return false;
     }
 
-
     public void addDollars(int dollars) {
         this.dollars += dollars;
     }
 
-
     public void addCredits(int credits) {
         this.credits += credits;
     }
-
 
     /**
      * Checks if a player is in the CastingOffice, if they are, checks money or credits (specified by input)

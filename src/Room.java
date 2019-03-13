@@ -5,11 +5,9 @@
  * Deadwood
  */
 
-import java.nio.file.FileAlreadyExistsException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Map;
 
 public class Room {
 
@@ -44,6 +42,10 @@ public class Room {
 
     public String getRoomName() {
         return this.roomName;
+    }
+
+    public int[] getArea() {
+        return area;
     }
 
     public ArrayList<ShotCounter> getShotCounters() {
