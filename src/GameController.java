@@ -39,8 +39,8 @@ public class GameController {
         int numPlayers = 4; //DEFAULT TEST CASE ONLY
         players = makePlayers(numPlayers);
 
-//        view = new UserView(this);
-//        view.show();
+        view = new UserView(this); //this
+        view.show();
         playGame();
     }
 

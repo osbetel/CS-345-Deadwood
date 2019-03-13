@@ -19,7 +19,7 @@ import java.awt.event.MouseListener;
 
 public class UserView extends JFrame {
 
-    GameController gc;
+    static GameController gc;
 
     JLayeredPane bPane;
 
@@ -37,6 +37,11 @@ public class UserView extends JFrame {
 
     static int numPlayers;
 
+    JTextField textField = new JTextField(0);
+    String textContent;
+
+
+
     //changing background color
     //system print out on screen JFrame
     //player stats system print
@@ -46,7 +51,9 @@ public class UserView extends JFrame {
         super("Deadwood");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
+
         this.gc = gc;
+
 
         // Create the JLayeredPane to hold the display, cards, dice and buttons
         bPane = getLayeredPane();
@@ -79,6 +86,19 @@ public class UserView extends JFrame {
         act.setBounds(25, 388,100, 20); //x: icon.getIconWidth()+10
         act.addMouseListener(new boardMouseListener());
 
+
+        //text for user input
+        textField.setBounds(3,415,145,100);
+        textContent = textField.getText();
+        //textField.setToolTipText("Please enter some text here");
+        textField.setToolTipText("<html><b><font color=red>"
+                + "Please enter a command here" + "</font></b></html>");
+        textField.setSelectionColor(Color.YELLOW);
+        textField.setSelectedTextColor(Color.RED);
+        textField.setHorizontalAlignment(JTextField.CENTER);
+
+
+
         //button for move
         //button for
         //GameC
@@ -88,20 +108,23 @@ public class UserView extends JFrame {
         bPane.add(stats, new Integer(2));
         bPane.add(act, new Integer(2));
         bPane.add(move, new Integer(2));
-
+        bPane.add(textField, new Integer (2));
         //Creates player stats info onto board
         statsInfo = new JLabel();
-        statsInfo.setBounds(3,365,125,170);
+        statsInfo.setBounds(3,520,125,170);
         //mLabel.setBounds(icon.getIconWidth()+40,0,100,20);
         statsInfo.setVisible(false);
         bPane.add(statsInfo,new Integer(2));
 
         //creats rules at the top
         //can edit which rules to display
-        rules = new JLabel("<html><u>*Will edit to say commands*</u><br/>Here's some of the few basic rules<br/> -Can only move to adjacent rooms <br/>-In a room, you can be an extra or a lead <br/> Can add more </html>", SwingConstants.CENTER);
+        rules = new JLabel("<html><u>List Of Commands</u><br/>Help, Endturn, Move, Whereami, Whoami,    Getdollars <br/>Getredits,    Listrooms,   Listroles, Currentscene, Currentroom, Takerole, Currentday, Rehearse, Score, Act </html>", SwingConstants.CENTER);
         rules.setBounds(3,10,125,160);
-        //mLabel.setBounds(icon.getIconWidth()+40,0,100,20);
+        rules.setFont (rules.getFont ().deriveFont (11.0f));
         bPane.add(rules,new Integer(2));
+        //"help", "endturn", "move", "whereami", "whoami",
+        //                 "getdollars", "getcredits", "listrooms", "listroles", "currentscene",
+        //                 "takerole", "currentday", "rehearse", "score","act", "currentrole"};
 
         //defines act, rehearse, move
         parts = new JLabel("<html><b>Act:</b> *insert acting rules <br/><b>Rehearse:</b> *insert rehearsing rules*<br/><b> Move: </b> Can choose to move to an adjacent room & take a role</html>");
@@ -172,14 +195,16 @@ public class UserView extends JFrame {
     }
 
 
-//    public static void main(String[] args) {
-//
-//        UserView board = new UserView();
-//        board.setVisible(true);
-//
-//        // Take input from the user abouty number of players
-//        String input = (String)JOptionPane.showInputDialog(board, "How many players?");
-//
-//        Integer playerNum = Integer.parseInt(input);
-//  }
+    public static void main(String[] args) {
+        //GameController gc;
+        //Player person = new Player();
+
+        UserView board = new UserView(gc);
+        board.setVisible(true);
+
+        // Take input from the user abouty number of players
+        String input = (String)JOptionPane.showInputDialog(board, "How many players?");
+
+        Integer playerNum = Integer.parseInt(input);
+  }
 }
