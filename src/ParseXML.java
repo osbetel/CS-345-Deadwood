@@ -60,6 +60,7 @@ public class ParseXML {
         HashMap<String, Role> extraRoles = new HashMap<>();
         String rmName = null;
         int[] area = new int[4];
+        int[] rmArea = new int[4];
 
         while (sr.hasNext()) {
 
@@ -94,6 +95,7 @@ public class ParseXML {
                             area = readArea(sr);
                             break;
                         case "take":
+                            rmArea = area;
                             int shotNum = Integer.parseInt(sr.getAttributeValue(null, "number"));
                             int[] coords = readArea(sr);
                             shotCounters.add(new ShotCounter(shotNum, coords));
@@ -106,11 +108,11 @@ public class ParseXML {
                             extraRoles.put(partName, new Role(partName, reqRank, false, null));
                             break;
                     }
-
                     break;
+
                 case XMLStreamReader.END_ELEMENT:
                     if (sr.getLocalName().equalsIgnoreCase("set")) {
-                        rms.put(rmName, new Room(rmName, neighbors, shotCounters, extraRoles, area));
+                        rms.put(rmName, new Room(rmName, neighbors, shotCounters, extraRoles, rmArea));
                         neighbors = new HashMap<>();
                         shotCounters = new ArrayList<>();
                         extraRoles = new HashMap<>();
@@ -125,9 +127,11 @@ public class ParseXML {
     }
 
     private static int[] readArea(XMLStreamReader sr) throws XMLStreamException {
+
         if (!sr.getLocalName().equalsIgnoreCase("area")) {
             sr.next();
         }
+
         int x = Integer.parseInt(sr.getAttributeValue(null, "x"));
         int y = Integer.parseInt(sr.getAttributeValue(null, "y"));
         int h = Integer.parseInt(sr.getAttributeValue(null, "h"));
@@ -184,6 +188,7 @@ public class ParseXML {
 
                     }
                     break;
+
                 case XMLStreamReader.END_ELEMENT:
                     if (sr.getLocalName().equalsIgnoreCase("card")) {
                         scenes.add(new Scene(sceneName, filePath, budget, sceneNum, sceneText, roles));

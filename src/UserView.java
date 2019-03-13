@@ -10,11 +10,10 @@
  */
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
+import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class UserView extends JFrame {
@@ -28,12 +27,14 @@ public class UserView extends JFrame {
     JLabel rules;
     JLabel parts;
     JLabel[] playerLabels;
+    JLabel[] activeScenes;
 
     JButton stats;
     JButton move;
     JButton act;
 
-    ImageIcon[] playerIm;
+    final int WITDH_CONSTANT = 200;
+    final int HEIGH_CONSTANT = 30;
 
     static int numPlayers;
 
@@ -62,13 +63,13 @@ public class UserView extends JFrame {
         boardlabel = new JLabel();
         ImageIcon icon = new ImageIcon("Assets/board0.jpg"); //936 by 702
         boardlabel.setIcon(icon);
-        boardlabel.setBounds(150, 0, icon.getIconWidth(), icon.getIconHeight());
+        boardlabel.setBounds(WITDH_CONSTANT, 0, icon.getIconWidth(), icon.getIconHeight());
 
         // Add the board to the lowest layer
         bPane.add(boardlabel, 0);
 
         // Set the size of the GUI
-        setSize(icon.getIconWidth() + 150, icon.getIconHeight());
+        setSize(icon.getIconWidth() + WITDH_CONSTANT + 10, icon.getIconHeight() + HEIGH_CONSTANT);
 
         //creates action button
         stats = new JButton("Player Stat");
@@ -105,18 +106,19 @@ public class UserView extends JFrame {
         //Execute command button
 
         //adds button onto upper layer
-        bPane.add(stats, new Integer(2));
-        bPane.add(act, new Integer(2));
-        bPane.add(move, new Integer(2));
+        bPane.add(stats, 2);
+        bPane.add(act, 2);
+        bPane.add(move, 2);
         bPane.add(textField, new Integer (2));
+
         //Creates player stats info onto board
         statsInfo = new JLabel();
         statsInfo.setBounds(3,520,125,170);
         //mLabel.setBounds(icon.getIconWidth()+40,0,100,20);
         statsInfo.setVisible(false);
-        bPane.add(statsInfo,new Integer(2));
+        bPane.add(statsInfo,2);
 
-        //creats rules at the top
+        //creates rules at the top
         //can edit which rules to display
         rules = new JLabel("<html><u>List Of Commands</u><br/>Help, Endturn, Move, Whereami, Whoami,    Getdollars <br/>Getredits,    Listrooms,   Listroles, Currentscene, Currentroom, Takerole, Currentday, Rehearse, Score, Act </html>", SwingConstants.CENTER);
         rules.setBounds(3,10,125,160);
@@ -130,13 +132,11 @@ public class UserView extends JFrame {
         parts = new JLabel("<html><b>Act:</b> *insert acting rules <br/><b>Rehearse:</b> *insert rehearsing rules*<br/><b> Move: </b> Can choose to move to an adjacent room & take a role</html>");
         parts.setBounds(3,160,125,150);
         //mLabel.setBounds(icon.getIconWidth()+40,0,100,20);
-        bPane.add(parts,new Integer(2));
+        bPane.add(parts,2);
 
     }
 
-
     class boardMouseListener implements MouseListener  { //KeyListener
-
 
         //use playerLabel.setText (String)
         // Code for the different button clicks
@@ -145,6 +145,10 @@ public class UserView extends JFrame {
             if (e.getSource() == stats) {
                 displayPlayerStats(requestActivePlayer());
                 //statsInfo.setVisible(true); //not needed for presentation tomorrow
+            } else if (e.getSource() == move) {
+                drawPlayers(requestPlayerLocations());
+            } else if (e.getSource() == act) {
+
             }
         }
         public void mousePressed(MouseEvent e) {
@@ -155,17 +159,131 @@ public class UserView extends JFrame {
         }
         public void mouseExited(MouseEvent e) {
         }
+    }
 
-//        public void keyPressed(KeyEvent e) {
-//            int key = e.getKeyCode();
-//            if (key == KeyEvent.VK_M ) {
-//                //Player.move(roomchoice/*location det by room chosen*/);
-//            }
-//        }
+    public void update() {
+        drawScenes(requestRoomsOnBoard()); //draw Scenes first so that they're underneath players
+        drawPlayers(requestPlayerLocations());
+    }
+
+    private void drawScenes(HashMap<String, Room> rooms) {
+        for (String rm : rooms.keySet()) {
+            drawScene(rooms.get(rm));
+        }
+    }
+
+    private void drawScene(Room rm) {
+        if (rm instanceof Trailer || rm instanceof CastingOffice) {
+            return;
+        }
+
+        Scene currentScene = rm.currentScene;
+        if (currentScene != null) {
+            int[] coords = determineCoordOffset(rm);
+
+            JLabel label = new JLabel();
+            ImageIcon sceneIcon = new ImageIcon(currentScene.filepath);
+            label.setIcon(sceneIcon);
+            label.setBounds(coords[0], coords[1],
+                    sceneIcon.getIconWidth(), sceneIcon.getIconHeight());
+            bPane.add(label, 3);
+            bPane.moveToFront(label);
+        }
+    }
+
+    private HashMap<Room, ArrayList<Player>> requestPlayerLocations() {
+        return gc.getPlayerLocations();
+    }
+
+    private HashMap<String, Room> requestRoomsOnBoard() {
+        return gc.getRoomsOnBoard();
+    }
+
+    private void drawPlayers(HashMap<Room, ArrayList<Player>> locations) {
+        //basically you gotta query the player, what room are they in?
+        //and then define places you draw the players in that room (depends on num of players in room. Do 1 first)
+
+        for (Room r : locations.keySet()) {
+            ArrayList<Player> playersInRoom = locations.get(r);
+            int i = 0;
+            for (Player p : playersInRoom) {
+                drawPlayer(p, i, 0);
+                i += 10;
+            }
+        }
+    }
+
+    private void drawPlayer(Player p, int xOffset, int yOffset) {
+        Room currentRoom = p.getCurrentRoom();
+        int[] coords = determineCoordOffset(currentRoom);
+        int playerNum = p.getPlayerNum();
+
+        playerLabels[playerNum - 1] = new JLabel();
+        JLabel label = playerLabels[playerNum - 1];
+        ImageIcon playerIcon = new ImageIcon(p.getPlayerIcon());
+        label.setIcon(playerIcon);
+        label.setBounds(coords[0] + xOffset, coords[1] + yOffset,
+                        playerIcon.getIconWidth(), playerIcon.getIconHeight());
+        bPane.add(label, 3);
+        bPane.moveToFront(label);
+    }
+
+    private int[] determineCoordOffset(Room rm) {
+        //Based on the Room, drawing players will occur in different places
+        int[] baseCoords = rm.getArea();
+        int x = baseCoords[0];
+        int y = baseCoords[1];
+
+        switch (rm.roomName) {
+            case "Trailer":
+                x += WITDH_CONSTANT;
+                break;
+            case "Casting Office":
+                x += WITDH_CONSTANT;
+                break;
+            case "Main Street":
+                x += WITDH_CONSTANT;
+                break;
+            case "Saloon":
+                x += WITDH_CONSTANT;
+                break;
+            case "Bank":
+                x += WITDH_CONSTANT;
+                break;
+            case "Hotel":
+                x += WITDH_CONSTANT;
+                break;
+            case "Church":
+                x += WITDH_CONSTANT;
+                break;
+            case "Jail":
+                x += WITDH_CONSTANT;
+                break;
+            case "General Store":
+                x += WITDH_CONSTANT;
+                break;
+            case "Ranch":
+                x += WITDH_CONSTANT;
+                break;
+            case "Secret Hideout":
+                x += WITDH_CONSTANT;
+                break;
+            case "Train Station":
+                x += WITDH_CONSTANT;
+                break;
+        }
+        int[] coords = {x, y};
+        return coords;
     }
 
     private Player requestActivePlayer() {
         return gc.getActivePlayer();
+    }
+
+    public int queryNumPlayers() {
+        int num = Integer.parseInt(JOptionPane.showInputDialog("How many players?"));
+        playerLabels = new JLabel[num];
+        return num;
     }
 
     public void displayPlayerStats(Player p) {
@@ -177,34 +295,34 @@ public class UserView extends JFrame {
         info += p.getDollars() + "\n";
         statsInfo.setText(info);
     }
-
-    public void playerIcons (Player[] players) {
-        int numPlayers = players.length;
-        playerIm = new ImageIcon[numPlayers];
-        String image;
-
-        for (int i = 0; i < numPlayers; i++) {
-            image = "b" + Math.random() * ( 0 - 6 );
-            playerIm[i] = new ImageIcon(image);
-        }
-
-    }
-
-    public void boardPlayerIcons () {
-        numPlayers = playerIm.length;
-    }
-
-
-    public static void main(String[] args) {
-        //GameController gc;
-        //Player person = new Player();
-
-        UserView board = new UserView(gc);
-        board.setVisible(true);
-
-        // Take input from the user abouty number of players
-        String input = (String)JOptionPane.showInputDialog(board, "How many players?");
-
-        Integer playerNum = Integer.parseInt(input);
-  }
+//
+//    public void playerIcons (Player[] players) {
+//        int numPlayers = players.length;
+//        playerIm = new ImageIcon[numPlayers];
+//        String image;
+//
+//        for (int i = 0; i < numPlayers; i++) {
+//            image = "b" + Math.random() * ( 0 - 6 );
+//            playerIm[i] = new ImageIcon(image);
+//        }
+//
+//    }
+//
+//    public void boardPlayerIcons () {
+//        numPlayers = playerIm.length;
+//    }
+//
+//
+//    public static void main(String[] args) {
+//        //GameController gc;
+//        //Player person = new Player();
+//
+//        UserView board = new UserView(gc);
+//        board.setVisible(true);
+//
+//        // Take input from the user abouty number of players
+//        String input = (String)JOptionPane.showInputDialog(board, "How many players?");
+//
+//        Integer playerNum = Integer.parseInt(input);
+//  }
 }
