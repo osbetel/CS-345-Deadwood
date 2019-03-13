@@ -5,8 +5,11 @@
  * Deadwood
  */
 
+import javax.xml.catalog.Catalog;
+import javax.xml.stream.XMLStreamException;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.*;
 
@@ -14,7 +17,7 @@ public class GameController {
 
     private ArrayList<Scene> scenes;
     private Board board;
-    private Player[] players;
+    private Player[] players;   //Queue style, active player should always be players[0]
     private int daysToPlay;
     private UserView view;
 
@@ -23,15 +26,43 @@ public class GameController {
      */
     public GameController() {
 
-        scenes = createScenes();
-        board = new Board();
+        try {
+            scenes = (ArrayList<Scene>) ParseXML.parseXML("Assets/cards.xml", false);
+            board = new Board((HashMap<String, Room>) ParseXML.parseXML("Assets/board.xml", true));
+        } catch (XMLStreamException ex) {
+            System.out.println(ex);
+        } catch (IOException ex) {
+            System.out.println(ex);
+        }
         daysToPlay = 4;
 
         int numPlayers = 4; //DEFAULT TEST CASE ONLY
         players = makePlayers(numPlayers);
 
-        view = new UserView(this);
-        view.show();
+//        view = new UserView(this);
+//        view.show();
+        playGame();
+    }
+
+    private void test() {
+        for (Scene s : scenes) {
+            System.out.println(s);
+            System.out.println(s.sceneName);
+            System.out.println(s.roles);
+            System.out.println(s.budget);
+            System.out.println(s.filepath);
+            System.out.println();
+        }
+
+        for (String rm : board.getRooms().keySet()) {
+            Room r = board.getRooms().get(rm);
+            System.out.println(r.roomName);
+            System.out.println(r.currentScene);
+            System.out.println(r.extraRoles);
+            System.out.println(r.neighbors);
+            System.out.println(r.shotCounters);
+            System.out.println();
+        }
     }
 
     public Player getActivePlayer() {
@@ -43,38 +74,6 @@ public class GameController {
      * See the Scenes class for more detail on the definition of a Scene.
      * @return Returns an ArrayList of all the Scene cards
      */
-    private ArrayList<Scene> createScenes() {
-        // This should read in a text file and generate all the scenes,
-        // Place them into an array and return it to the game controller
-        scenes = new ArrayList<>();
-
-        try {
-            File sceneFile = new File("Assets/scenes.txt");
-            Scanner sc = new Scanner(sceneFile);
-            sc.nextLine();
-
-            while (sc.hasNextLine()) {
-                String[] sceneData = sc.nextLine().split(";");
-                int sceneNum = Integer.parseInt(sceneData[0].strip());
-                String sceneTitle = sceneData[1].strip();
-                int sceneBudget = Integer.parseInt(sceneData[2].strip());
-
-                HashMap<String, Role> roles = new HashMap<>();
-
-                for (int j = 3; j < sceneData.length; j += 2) {
-                    Role r = new Role(sceneData[j].strip(),
-                            Integer.parseInt(sceneData[j + 1].strip()),
-                            true);
-                    roles.put(sceneData[j].strip(), r);
-                }
-                scenes.add(new Scene(sceneNum, sceneTitle, sceneBudget, roles));
-            }
-
-        } catch (FileNotFoundException ex) {
-            System.out.println(ex);
-        }
-        return scenes;
-    }
 
     /**
      * Creates num Players and puts them in an Array for use by the GameController
@@ -116,9 +115,24 @@ public class GameController {
     }
 
     //random integer die roll
-    private int rollDie() {
+    private int[] rollDie(int numDiceToRoll) {
+        int[] rolls = new int[numDiceToRoll];
         Random r = new Random();
-        return r.nextInt(6) + 1;
+
+        for (int i = 0; i < numDiceToRoll; i++) {
+            rolls[i] = r.nextInt(6) + 1;
+        }
+        return rolls;
+    }
+
+    private void playGame() {
+        /**
+         * What is necessary when you need to play a game?
+         */
+        System.out.println(scenes.size());
+        board.dealScenes(scenes);
+        System.out.println(scenes.size());
+        test();
     }
 
     /**
@@ -133,6 +147,7 @@ public class GameController {
      * @return Returns a true/false (just for testing purposes)
      * todo: game loop needs to be modified to interact with the UserView
      */
+    @Deprecated // Will be removed after 2 commits
     private boolean parseInput(Player p, Scanner sc, String[] commands, String action,
                                int currentDay, boolean hasMoved, boolean hasTakenRole) {
 
@@ -304,12 +319,12 @@ public class GameController {
 
             case "act":
                 if (p.getCurrentRole() != null) {
-                    int dieRoll = rollDie();
+                    int dieRoll = rollDie(1)[0];
                     boolean didSucceed = p.act(dieRoll);
 
                     if (didSucceed) {
                         System.out.println("You've successfully performed a shot!");
-                        System.out.println("Remaining shots on this scene: " + p.getCurrentScene().shotCounters);
+                        System.out.println("Remaining shots on this scene: " + p.getCurrentScene());
                         System.out.println("Credits earned: 2");
                     } else {
                         System.out.println("Acting failed!");
@@ -342,7 +357,8 @@ public class GameController {
     /**
      * Actual game loop.
      */
-    public void playgame() {
+    @Deprecated // will be removed after 2 commits
+    public void playgameDeprecated() {
 
         Scanner sc = new Scanner(System.in);
         String[] commands = {"help", "endturn", "move", "whereami", "whoami",

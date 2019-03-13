@@ -22,37 +22,21 @@ public class Board {
      * Board constructor. Also constructs the Rooms (Board can't exist without rooms)
      */
     @SuppressWarnings("Check the typecast in the Board constructor if there are errors")
-    public Board() {
+    public Board(HashMap<String, Room> rms) {
 
-        // setup rooms
-        HashMap<String, Room> rms = null;
-        try {
-            rms = (HashMap<String, Room>) ParseXML.parseXML("Assets/board.xml", true);
-            //Now rms is a HashMap of all the Rooms... But each Room has a list of neighboring Rooms,
-            //and currently these are just Strings (in a Hashmap) that map to null.
-            for (String r : rms.keySet()) {
-                Room rm = rms.get(r);
+        // rms already constructed by ParseXML class, need to connect neighboring Rooms
+        for (String r : rms.keySet()) {
+            Room rm = rms.get(r);
 
-                if (rm instanceof CastingOffice || rm instanceof Trailer) {
-                    break;
-                }
-
-                for (String neighbor : rm.neighbors.keySet()) {
-                    rm.neighbors.put(neighbor, rms.get(neighbor));
-                }
+            if (rm instanceof CastingOffice || rm instanceof Trailer) {
+                continue;
             }
-        } catch (XMLStreamException ex) {
-            System.out.println(ex);
-            System.exit(1);
-        } catch (IOException ex) {
-            System.out.println(ex);
-            System.exit(1);
+
+            for (String neighbor : rm.neighbors.keySet()) {
+                rm.neighbors.put(neighbor, rms.get(neighbor));
+            }
         }
         this.rooms = rms;
-//        System.out.println("In Board class, line 39");
-//        for (String r : rooms.keySet()) {
-//            rooms.get(r).properties();
-//        }
     }
 
     /**
