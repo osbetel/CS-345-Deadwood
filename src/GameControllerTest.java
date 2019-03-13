@@ -29,7 +29,6 @@ public class GameControllerTest {
         }
     }
 
-
     public static void testBoard(Board board) {
         for (String rm : board.getRooms().keySet()) {
             Room room = board.getRooms().get(rm);
@@ -43,7 +42,6 @@ public class GameControllerTest {
         assert castingOffice instanceof CastingOffice : "Casting Office is a Room object, " +
                 "but not a CastingOffice object, meaning it can't be used to check a PLayer's rankUp()";
     }
-
 
     public static void testAll(Player[] plyr, Board board, ArrayList<Scene> scenes) {
         testPlayers(plyr, board);

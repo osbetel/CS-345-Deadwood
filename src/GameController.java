@@ -16,26 +16,26 @@ public class GameController {
     private Board board;
     private Player[] players;
     private int daysToPlay;
+    private UserView view;
 
     /**
      * The class that ties it all together
-     * @param numPlayers
      */
-    public GameController(int numPlayers) {
+    public GameController() {
 
-        this.board = new Board(numPlayers);
-        this.scenes = createScenes();
-        this.players = makePlayers(numPlayers);
+        scenes = createScenes();
+        board = new Board();
+        daysToPlay = 4;
 
+        int numPlayers = 4; //DEFAULT TEST CASE ONLY
+        players = makePlayers(numPlayers);
+
+        view = new UserView(this);
+        view.show();
     }
 
-    //Test constructor
-    public GameController() {
-        this.board = new Board(2);
-        this.scenes = createScenes();
-        this.players = new Player[2];
-        players[0] = new Player("a", 1, 0, 0, null);
-        players[1] = new Player("b", 1, 0, 0, null);
+    public Player getActivePlayer() {
+        return players[0];
     }
 
     /**
@@ -76,7 +76,6 @@ public class GameController {
         return scenes;
     }
 
-
     /**
      * Creates num Players and puts them in an Array for use by the GameController
      * @param num Parameter is the number of Players in this game session. Easy.
@@ -86,12 +85,11 @@ public class GameController {
         int startingMoney = 0;
         int startingCredits = 0;
         int startingRank = 1;
-        int numOfDays = 4;
         Room startingRoom = board.getRooms().get("Trailer");
 
         //Determining potential special rules
         if (isYBetweenXAndZ(2, num, 3)) {
-            numOfDays = 3;
+            this.daysToPlay = 3;
         } else if (num == 4) {
             // do nothing
         } else if (num == 5) {
@@ -104,15 +102,11 @@ public class GameController {
 
         // Now actually create num players
         Player[] newPlayers = new Player[num];
-        Scanner sc = new Scanner(System.in);
-
         for (int i = 0; i < num; i++) {
-            System.out.println("Please type player " + (i+1) + "'s name: ");
-            String name = sc.nextLine();
-            newPlayers[i] = new Player(name, startingRank, startingMoney, startingCredits, startingRoom);
+            newPlayers[i] = new Player("p" + Integer.toString(i), startingRank,
+                    startingMoney, startingCredits, startingRoom);
         }
 
-        this.daysToPlay = numOfDays;
         return newPlayers;
     }
 
@@ -120,7 +114,6 @@ public class GameController {
     private boolean isYBetweenXAndZ(int X, int Y, int Z) {
         return X <= Y && Y <= Z;
     }
-
 
     //random integer die roll
     private int rollDie() {
@@ -138,6 +131,7 @@ public class GameController {
      * @param hasMoved Same as above
      * @param hasTakenRole same
      * @return Returns a true/false (just for testing purposes)
+     * todo: game loop needs to be modified to interact with the UserView
      */
     private boolean parseInput(Player p, Scanner sc, String[] commands, String action,
                                int currentDay, boolean hasMoved, boolean hasTakenRole) {
@@ -344,7 +338,6 @@ public class GameController {
         }
         return p.getHasMoved() && p.getHasTakenRole();
     }
-
 
     /**
      * Actual game loop.

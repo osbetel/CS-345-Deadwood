@@ -27,27 +27,35 @@ public class Room {
         this.shotCounters = shotCounters;
         this.extraRoles = roles;
         this.area = area;
-//        this.sceneCardCoordinates = sceneCardCoordinates;
-    }
 
+    }
 
     public void setScene(Scene newScene) {
         this.currentScene = newScene;
     }
 
-
     public void clearScene() {
         this.currentScene = null;
     }
-
 
     public Scene getScene() {
         return this.currentScene;
     }
 
-
     public String getRoomName() {
         return this.roomName;
+    }
+
+    public ArrayList<ShotCounter> getShotCounters() {
+        return shotCounters;
+    }
+
+    public HashMap<String, Role> getExtraRoles() {
+        return extraRoles;
+    }
+
+    public HashMap<String, Room> getNeighbors() {
+        return neighbors;
     }
 
     public void properties() {
@@ -80,5 +88,4 @@ public class Room {
 
         System.out.println();
     }
-
 }

@@ -16,6 +16,8 @@ import java.awt.event.MouseListener;
 
 public class UserView extends JFrame {
 
+    GameController gc;
+
     JLayeredPane bPane;
 
     JLabel boardlabel;
@@ -29,11 +31,12 @@ public class UserView extends JFrame {
     //system print out on screen JFrame
     //player stats system print
 
-    public UserView() {
+    public UserView(GameController gc) {
         // Set the title of the JFrame
         super("Deadwood");
-        // Set the exit option for the JFrame
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+        this.gc = gc;
 
         // Create the JLayeredPane to hold the display, cards, dice and buttons
         bPane = getLayeredPane();
@@ -45,7 +48,7 @@ public class UserView extends JFrame {
         boardlabel.setBounds(150, 0, icon.getIconWidth(), icon.getIconHeight());
 
         // Add the board to the lowest layer
-        bPane.add(boardlabel, new Integer(0));
+        bPane.add(boardlabel, 0);
 
         // Set the size of the GUI
         setSize(icon.getIconWidth() + 150, icon.getIconHeight());
@@ -59,7 +62,7 @@ public class UserView extends JFrame {
         //adds button onto upper layer
         bPane.add(stats, new Integer(2));
 
-        //Creats player stats info onto board
+        //Creates player stats info onto board
         statsInfo = new JLabel("Here's your player info....");
         statsInfo.setBounds(3,365,125,20);
         //mLabel.setBounds(icon.getIconWidth()+40,0,100,20);
@@ -81,14 +84,15 @@ public class UserView extends JFrame {
 
     }
 
-
     class boardMouseListener implements MouseListener {
 
         // Code for the different button clicks
         public void mouseClicked(MouseEvent e) {
 
-            if (e.getSource()== stats){
+            if (e.getSource() == stats) {
+                displayPlayerStats(requestActivePlayer());
                 statsInfo.setVisible(true);
+//                statsInfo.setVisible(true);
                 // System.out.println("Here's your player info....\n Money: " + Player.getScore() + "\n ");
             }
         }
@@ -102,14 +106,28 @@ public class UserView extends JFrame {
         }
     }
 
-    public static void main(String[] args) {
+    private Player requestActivePlayer() {
+        return gc.getActivePlayer();
+    }
 
-        UserView board = new UserView();
-        board.setVisible(true);
+    public void displayPlayerStats(Player p) {
+        String info = "";
+        info += p.playerName + "\n";
+        info += p.getRank() + "\n";
+        info += p.getScore() + "\n";
+        info += p.getCredits() + "\n";
+        info += p.getDollars() + "\n";
+        statsInfo.setText(info);
+    }
 
-        // Take input from the user abouty number of players
-        String input = (String)JOptionPane.showInputDialog(board, "How many players?");
-
-        Integer playerNum = Integer.parseInt(input);
-  }
+//    public static void main(String[] args) {
+//
+//        UserView board = new UserView();
+//        board.setVisible(true);
+//
+//        // Take input from the user abouty number of players
+//        String input = (String)JOptionPane.showInputDialog(board, "How many players?");
+//
+//        Integer playerNum = Integer.parseInt(input);
+//  }
 }

@@ -11,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Board {
@@ -19,15 +20,27 @@ public class Board {
 
     /**
      * Board constructor. Also constructs the Rooms (Board can't exist without rooms)
-     * @param numPlayers An integer specifying the number of players.
      */
     @SuppressWarnings("Check the typecast in the Board constructor if there are errors")
-    public Board(int numPlayers) {
+    public Board() {
 
         // setup rooms
         HashMap<String, Room> rms = null;
         try {
             rms = (HashMap<String, Room>) ParseXML.parseXML("Assets/board.xml", true);
+            //Now rms is a HashMap of all the Rooms... But each Room has a list of neighboring Rooms,
+            //and currently these are just Strings (in a Hashmap) that map to null.
+            for (String r : rms.keySet()) {
+                Room rm = rms.get(r);
+
+                if (rm instanceof CastingOffice || rm instanceof Trailer) {
+                    break;
+                }
+
+                for (String neighbor : rm.neighbors.keySet()) {
+                    rm.neighbors.put(neighbor, rms.get(neighbor));
+                }
+            }
         } catch (XMLStreamException ex) {
             System.out.println(ex);
             System.exit(1);
@@ -42,7 +55,6 @@ public class Board {
 //        }
     }
 
-
     /**
      * Clears the board and deals new scenes.
      * @param availableScenes
@@ -53,7 +65,6 @@ public class Board {
         numOfScenes = 10;
     }
 
-
     public void clearScenes() {
         //removes all scenes from all rooms
         for (String rm : rooms.keySet()) {
@@ -61,39 +72,26 @@ public class Board {
         }
     }
 
-
     public void dealScenes(ArrayList<Scene> available) {
 
-//        if (true) {
-//            this.rooms.get("Church").setScene(available.get(0));
-//            this.rooms.get("Bank").setScene(available.get(1));
-//
-//            this.rooms.get("Church").getScene().setCounter(this.rooms.get("Church").shotCounters);
-//            this.rooms.get("Bank").getScene().setCounter(this.rooms.get("Bank").shotCounters);
-//
-//            return;
-//        }
+        Random randint = new Random();
 
         for (String rm : this.rooms.keySet()) {
-            //todo:select random scene, assign to room, delete from available. Currently takes first scene on list
             if (!(rm.equals("Casting Office") || rm.equals("Trailer"))) {
-                this.rooms.get(rm).setScene(available.get(0));
-                available.remove(0);
-//                this.rooms.get(rm).getScene().setCounter(this.rooms.get(rm).shotCounters);
+                int nextScene = randint.nextInt(available.size());
+                this.rooms.get(rm).setScene(available.get(nextScene));
+                available.remove(nextScene);
             }
         }
     }
-
 
     public int getNumOfScenes() {
         return numOfScenes;
     }
 
-
     public void setNumOfScenes(int numOfScenes) {
         this.numOfScenes = numOfScenes;
     }
-
 
     public Scene getFinalScene() {
         for (String r : rooms.keySet()) {
@@ -104,7 +102,6 @@ public class Board {
         }
         return null;
     }
-
 
     public HashMap<String, Room> getRooms() {
         return rooms;

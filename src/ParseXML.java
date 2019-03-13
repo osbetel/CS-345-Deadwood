@@ -18,8 +18,8 @@ public class ParseXML {
      * Reads an XML file, parses input, returns list/map of relevant objects
      * @param filename directory path to the file
      * @param isInputRooms True if reading rooms file, False if reading scenes file
-     * @throws XMLStreamException If the input file is not an XML file
-     * @throws IOException Same
+     * @throws XMLStreamException Throws if the XML Stream gets messed up (premature end of file, no closing tag, etc.)
+     * @throws IOException Usually thrown if the filename input is incorrect, doesn't exist (also FileNotFoundException)
      */
     public static Object parseXML(String filename, boolean isInputRooms)
             throws XMLStreamException, IOException {
