@@ -32,14 +32,14 @@ public class Board {
 
                 String[] rmData = sc.nextLine().split(";");
                 String rmName = rmData[0];
-                int rmShotCounters = Integer.parseInt(rmData[1].strip());
+                int rmShotCounters = Integer.parseInt(rmData[1].trim());
                 HashMap<String, Role> roles = new HashMap<>();
 
                 for (int j = 2; j < rmData.length; j += 2) {
-                    Role r = new Role(rmData[j].strip(),
-                            Integer.parseInt(rmData[j + 1].strip()),
+                    Role r = new Role(rmData[j].trim(),
+                            Integer.parseInt(rmData[j + 1].trim()),
                             false);
-                    roles.put(rmData[j].strip(), r);
+                    roles.put(rmData[j].trim(), r);
                 }
 
                 //Now we have a string name, int shotcounters, and a map of <string roles, int rank>

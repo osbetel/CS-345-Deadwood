@@ -57,17 +57,17 @@ public class GameController {
 
             while (sc.hasNextLine()) {
                 String[] sceneData = sc.nextLine().split(";");
-                int sceneNum = Integer.parseInt(sceneData[0].strip());
-                String sceneTitle = sceneData[1].strip();
-                int sceneBudget = Integer.parseInt(sceneData[2].strip());
+                int sceneNum = Integer.parseInt(sceneData[0].trim());
+                String sceneTitle = sceneData[1].trim();
+                int sceneBudget = Integer.parseInt(sceneData[2].trim());
 
                 HashMap<String, Role> roles = new HashMap<>();
 
                 for (int j = 3; j < sceneData.length; j += 2) {
-                    Role r = new Role(sceneData[j].strip(),
-                            Integer.parseInt(sceneData[j + 1].strip()),
+                    Role r = new Role(sceneData[j].trim(),
+                            Integer.parseInt(sceneData[j + 1].trim()),
                             true);
-                    roles.put(sceneData[j].strip(), r);
+                    roles.put(sceneData[j].trim(), r);
                 }
                 scenes.add(new Scene(sceneNum, sceneTitle, sceneBudget, roles));
             }
@@ -168,7 +168,7 @@ public class GameController {
                 for (String rm : board.getRooms().keySet()) {
                     avrms += (rm + ", ");
                 }
-                System.out.println(avrms.strip());
+                System.out.println(avrms.trim());
                 System.out.println("What room would you like to move to? : ");
                 Room target = board.getRooms().get(sc.nextLine()); //todo need to add error checking for Assignment 3
                 p.move(target);
@@ -202,7 +202,7 @@ public class GameController {
                 for (String rm : board.getRooms().keySet()) {
                     allrm += (rm + ", ");
                 }
-                System.out.println(allrm.strip());
+                System.out.println(allrm.trim());
                 break;
 
             case "listroles":
@@ -226,8 +226,8 @@ public class GameController {
                     extraOut += extras.get(extraKey).title + ", ";
                 }
 
-                System.out.println(mainOut.strip() + "]");
-                System.out.println(extraOut.strip() + "]");
+                System.out.println(mainOut.trim() + "]");
+                System.out.println(extraOut.trim() + "]");
                 break;
 
             case "currentscene":
@@ -256,8 +256,8 @@ public class GameController {
                         extraOut += extras.get(extraKey).title + ", ";
                     }
 
-                    System.out.println(mainOut.strip() + "]");
-                    System.out.println(extraOut.strip() + "]");
+                    System.out.println(mainOut.trim() + "]");
+                    System.out.println(extraOut.trim() + "]");
 
                     System.out.println("Main or Extra role? : ");
                     Role take = null;
