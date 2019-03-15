@@ -28,6 +28,8 @@ public class UserView extends JFrame {
     JLabel parts;
     JLabel[] playerLabels;
     JLabel[] activeScenes;
+    //used for displaying player info in displayPlayerInfo()
+    JLabel[] playerInfo = {new JLabel("Player 1"), new JLabel("Player 2"), new JLabel("Player 3"), new JLabel("Player 4"), new JLabel("Player 5"), new JLabel("Player 6"), new JLabel("Player 7"), new JLabel("Player 8")};;
 
     JButton stats;
     JButton move;
@@ -37,10 +39,6 @@ public class UserView extends JFrame {
     final int HEIGH_CONSTANT = 30;
 
     static int numPlayers;
-
-    JTextField textField = new JTextField(0);
-    String textContent;
-
 
 
     //changing background color
@@ -71,68 +69,38 @@ public class UserView extends JFrame {
         // Set the size of the GUI
         setSize(icon.getIconWidth() + WITDH_CONSTANT + 10, icon.getIconHeight() + HEIGH_CONSTANT);
 
-        //creates action button
-        stats = new JButton("Player Stat");
-        stats.setBackground(Color.white);
-        stats.setBounds(25, 341,100, 20); //x: icon.getIconWidth()+10
-        stats.addMouseListener(new boardMouseListener());
+        //creates action buttons
+        //delete for final draft
+//        stats = new JButton("Player Stat");
+//        stats.setBackground(Color.white);
+//        stats.setBounds(25, 341,100, 20); //x: icon.getIconWidth()+10
+//        stats.addMouseListener(new boardMouseListener());
 
-        move = new JButton("Move");
-        move.setBackground(Color.white);
-        move.setBounds(25, 366,100, 20); //x: icon.getIconWidth()+10
-        move.addMouseListener(new boardMouseListener());
-
-        act = new JButton("Act");
-        act.setBackground(Color.white);
-        act.setBounds(25, 388,100, 20); //x: icon.getIconWidth()+10
-        act.addMouseListener(new boardMouseListener());
-
-
-        //text for user input
-        textField.setBounds(3,415,145,100);
-        textContent = textField.getText();
-        //textField.setToolTipText("Please enter some text here");
-        textField.setToolTipText("<html><b><font color=red>"
-                + "Please enter a command here" + "</font></b></html>");
-        textField.setSelectionColor(Color.YELLOW);
-        textField.setSelectedTextColor(Color.RED);
-        textField.setHorizontalAlignment(JTextField.CENTER);
-
-
-
-        //button for move
-        //button for
-        //GameC
-        //Execute command button
 
         //adds button onto upper layer
-        bPane.add(stats, 2);
-        bPane.add(act, 2);
-        bPane.add(move, 2);
-        bPane.add(textField, new Integer (2));
+        //bPane.add(stats, 2); //delete for final draft
+
 
         //Creates player stats info onto board
-        statsInfo = new JLabel();
-        statsInfo.setBounds(3,520,125,170);
-        //mLabel.setBounds(icon.getIconWidth()+40,0,100,20);
-        statsInfo.setVisible(false);
-        bPane.add(statsInfo,2);
+        //delete
+//        statsInfo = new JLabel("2d");
+//        statsInfo.setBounds(3,520,125,20);
+//        //mLabel.setBounds(icon.getIconWidth()+40,0,100,20);
+//        statsInfo.setVisible(false);
+//        bPane.add(statsInfo,2);
 
         //creates rules at the top
         //can edit which rules to display
-        rules = new JLabel("<html><u>List Of Commands</u><br/>Help, Endturn, Move, Whereami, Whoami,    Getdollars <br/>Getredits,    Listrooms,   Listroles, Currentscene, Currentroom, Takerole, Currentday, Rehearse, Score, Act </html>", SwingConstants.CENTER);
-        rules.setBounds(3,10,125,160);
-        rules.setFont (rules.getFont ().deriveFont (11.0f));
-        bPane.add(rules,new Integer(2));
-        //"help", "endturn", "move", "whereami", "whoami",
-        //                 "getdollars", "getcredits", "listrooms", "listroles", "currentscene",
-        //                 "takerole", "currentday", "rehearse", "score","act", "currentrole"};
+//        rules = new JLabel("<html><u>List Of Commands</u><br/>Help, Endturn, Move, Whereami, Whoami,    Getdollars <br/>Getredits,    Listrooms,   Listroles, Currentscene, Currentroom, Takerole, Currentday, Rehearse, Score, Act </html>", SwingConstants.CENTER);
+//        rules.setBounds(3,10,125,160);
+//        rules.setFont (rules.getFont ().deriveFont (11.0f));
+//        bPane.add(rules,new Integer(2));
 
         //defines act, rehearse, move
-        parts = new JLabel("<html><b>Act:</b> *insert acting rules <br/><b>Rehearse:</b> *insert rehearsing rules*<br/><b> Move: </b> Can choose to move to an adjacent room & take a role</html>");
-        parts.setBounds(3,160,125,150);
-        //mLabel.setBounds(icon.getIconWidth()+40,0,100,20);
-        bPane.add(parts,2);
+//        parts = new JLabel("<html><b>Act:</b> *insert acting rules <br/><b>Rehearse:</b> *insert rehearsing rules*<br/><b> Move: </b> Can choose to move to an adjacent room & take a role</html>");
+//        parts.setBounds(3,160,125,150);
+//        //mLabel.setBounds(icon.getIconWidth()+40,0,100,20);
+//        bPane.add(parts,2);
 
     }
 
@@ -142,9 +110,10 @@ public class UserView extends JFrame {
         // Code for the different button clicks
         public void mouseClicked(MouseEvent e) {
 
+            //still have for testing but won't be used in final
             if (e.getSource() == stats) {
-                displayPlayerStats(requestActivePlayer());
-                //statsInfo.setVisible(true); //not needed for presentation tomorrow
+               // displayPlayerStats(requestActivePlayer());
+                displayerPlayerInfo(requestAllPlayers(), numPlayers);
             } else if (e.getSource() == move) {
                 drawPlayers(requestPlayerLocations());
             } else if (e.getSource() == act) {
@@ -213,6 +182,7 @@ public class UserView extends JFrame {
         }
     }
 
+    //draws player icons onto the board
     private void drawPlayer(Player p, int xOffset, int yOffset) {
         Room currentRoom = p.getCurrentRoom();
         int[] coords = determineCoordOffset(currentRoom);
@@ -276,53 +246,62 @@ public class UserView extends JFrame {
         return coords;
     }
 
-    private Player requestActivePlayer() {
-        return gc.getActivePlayer();
+    //request all of the players (used in displayPlayerInfo())
+    private Player[] requestAllPlayers() {
+        return gc.getAllActivePlayers();
     }
 
     public int queryNumPlayers() {
-        int num = Integer.parseInt(JOptionPane.showInputDialog("How many players?"));
-        playerLabels = new JLabel[num];
-        return num;
+        int numPlayers = Integer.parseInt(JOptionPane.showInputDialog("How many players?"));
+        playerLabels = new JLabel[numPlayers];
+        return numPlayers;
     }
 
-    public void displayPlayerStats(Player p) {
-        String info = "Here's ";
-        info += p.playerName + " player \n information Rank: ";
-        info += p.getRank() + "\n Score: ";
-        info += p.getScore() + "\n Credits: ";
-        info += p.getCredits() + "\n Dollars: ";
-        info += p.getDollars() + "\n";
-        statsInfo.setText(info);
+    //used to display one player's info
+    //delete for final draft
+//    public void displayPlayerStats(Player p) {
+//        String info = "Here's ";
+//        info += p.playerName + " player \n information Rank: ";
+//        info += p.getRank() + "\n Score: ";
+//        info += p.getScore() + "\n Credits: ";
+//        info += p.getCredits() + "\n Dollars: ";
+//        info += p.getDollars() + "\n";
+//        statsInfo.setText(info);
+//        //statsInfo.setHorizontalAlignment(JTextField.TOP);
+//    }
+
+
+
+    public void displayerPlayerInfo (Player[] p, int playerNum) {
+        int numPlayers = p.length;
+
+        for (int i = 0; i < numPlayers; i++) {
+            playerInfo[i].setHorizontalTextPosition(JLabel.LEFT);
+            playerInfo[i].setVerticalTextPosition(JLabel.TOP);
+            //for the current player
+            if(i == playerNum && playerNum >= 0) {
+                String info = "It's ";
+                info += p[i].playerName + " turn \n information Rank: ";
+                info += p[i].getRank() + "\n Score: ";
+                info += p[i].getScore() + "\n Credits: ";
+                info += p[i].getCredits() + "\n Dollars: ";
+                info += p[i].getDollars() + "\n";
+                playerInfo[i].setText(info);
+            }
+            else {
+                String info = "Here's ";
+                info += p[i].playerName + " player information \n Rank: ";
+                info += p[i].getRank() + "\n Score: ";
+                info += p[i].getScore() + "\n Credits: ";
+                info += p[i].getCredits() + "\n Dollars: ";
+                info += p[i].getDollars() + "\n";
+                playerInfo[i].setText(info);
+            }
+        }
+        //to remove players not playing
+        for(; numPlayers < 8; numPlayers++){
+            playerInfo[numPlayers].setText("");
+        }
     }
-//
-//    public void playerIcons (Player[] players) {
-//        int numPlayers = players.length;
-//        playerIm = new ImageIcon[numPlayers];
-//        String image;
-//
-//        for (int i = 0; i < numPlayers; i++) {
-//            image = "b" + Math.random() * ( 0 - 6 );
-//            playerIm[i] = new ImageIcon(image);
-//        }
-//
-//    }
-//
-//    public void boardPlayerIcons () {
-//        numPlayers = playerIm.length;
-//    }
-//
-//
-//    public static void main(String[] args) {
-//        //GameController gc;
-//        //Player person = new Player();
-//
-//        UserView board = new UserView(gc);
-//        board.setVisible(true);
-//
-//        // Take input from the user abouty number of players
-//        String input = (String)JOptionPane.showInputDialog(board, "How many players?");
-//
-//        Integer playerNum = Integer.parseInt(input);
-//  }
+
 }
