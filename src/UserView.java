@@ -31,9 +31,8 @@ public class UserView extends JFrame {
     //used for displaying player info in displayPlayerInfo()
     JLabel[] playerInfo = {new JLabel("Player 1"), new JLabel("Player 2"), new JLabel("Player 3"), new JLabel("Player 4"), new JLabel("Player 5"), new JLabel("Player 6"), new JLabel("Player 7"), new JLabel("Player 8")};;
 
-    JButton stats;
-    JButton move;
-    JButton act;
+    JButton stats, endTurn;
+
 
     final int WITDH_CONSTANT = 200;
     final int HEIGH_CONSTANT = 30;
@@ -76,9 +75,15 @@ public class UserView extends JFrame {
 //        stats.setBounds(25, 341,100, 20); //x: icon.getIconWidth()+10
 //        stats.addMouseListener(new boardMouseListener());
 
+        endTurn = new JButton("End Turn");
+        endTurn.setBackground(Color.white);
+        endTurn.setBounds(25, 25, 100, 20);
+        endTurn.addMouseListener(new boardMouseListener());
+
 
         //adds button onto upper layer
         //bPane.add(stats, 2); //delete for final draft
+        bPane.add(endTurn, 2);
 
 
         //Creates player stats info onto board
@@ -114,11 +119,10 @@ public class UserView extends JFrame {
             if (e.getSource() == stats) {
                // displayPlayerStats(requestActivePlayer());
                 displayerPlayerInfo(requestAllPlayers(), numPlayers);
-            } else if (e.getSource() == move) {
-                drawPlayers(requestPlayerLocations());
-            } else if (e.getSource() == act) {
+            } else if (e.getSource() == endTurn) {
+                //drawPlayers(requestPlayerLocations());
+                //where end turn method would go
 
-            }
         }
         public void mousePressed(MouseEvent e) {
         }
@@ -249,6 +253,19 @@ public class UserView extends JFrame {
     //request all of the players (used in displayPlayerInfo())
     private Player[] requestAllPlayers() {
         return gc.getAllActivePlayers();
+    }
+
+    private Player requestCurrentPlayer() {
+        return gc.getActivePlayer();
+     }
+
+     private Player initEndTurn(Player[] players) {
+        return gc.endTurn(requestAllPlayers());
+    }
+
+    //something from this was deleted, but I'm not sure what it was (-.-)
+    private Player initMove(Player currPlayer) {
+        return gc.
     }
 
     public int queryNumPlayers() {

@@ -5,6 +5,9 @@
  * Deadwood
  */
 
+import java.lang.*;
+
+
 public class Player {
 
     public final String playerName;
@@ -42,6 +45,19 @@ public class Player {
 
     public void move(Room location) {
         this.currentRoom = location;
+    }
+
+
+    public Player[] endTurn(Player[] player) {
+        var temp = player[0];
+        int playerLen = player.length;
+
+        for (int i = 0; i < playerLen; i++) {
+            player[i+1] = player[i];
+        }
+
+        player[0] = temp;
+        return player;
     }
 
 
