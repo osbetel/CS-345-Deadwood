@@ -12,8 +12,8 @@ public class Scene {
     public final String text;
     public final HashMap<String, Role> roles;   //Remember that Rooms and Scenes each have their own Roles
 
-    public boolean payout;
-    public ArrayList<Player> playersOnScene;
+    public boolean payout, wrapped;
+    public ArrayList<Player> playersInScene;
 
     public Scene(String sceneName, String filepath, int budget,
                  int sceneNumber, String text, HashMap<String, Role> roles) {
@@ -25,7 +25,8 @@ public class Scene {
         this.roles = roles;
 
         payout = true; //all scenes payout except the last scene of the day
-        playersOnScene = new ArrayList<>(); //empty at first
+        wrapped = false;
+        playersInScene = new ArrayList<>(); //empty at first
     }
 
 
@@ -44,45 +45,90 @@ public class Scene {
         }
     }
 
-
     /**
      * Scenes keep track of which Players are performing on them
      * in order to deal with paying out bonuses.
      * @param ply Player object
      */
     public void addPlayerOnScene(Player ply) {
-        playersOnScene.add(ply);
+        playersInScene.add(ply);
     }
-
 
     /**
      * Finishes the Scene. Pays out the standard sum and then pays out bonuses.
      */
     public void wrapScene() {
-        for (Player p :  playersOnScene) {
-            p.addDollars(p.getCurrentRole().requiredRank);
+
+        ArrayList<Player> onScene = new ArrayList<>(), offScene = new ArrayList<>();
+
+        if (payout) {   //if payout is false then it is the last scene of the day
+
+            int[] rolls = new int[budget];
+            for (int i = 0; i < rolls.length; i++) {
+                rolls[i] = rollDie();
+            }
+            Arrays.sort(rolls);
+
+            onScene = new ArrayList<>();
+            offScene = new ArrayList<>();
+
+            for (Player p : playersInScene) {
+                if (p.getCurrentRole().isMainRole()) {
+                    onScene.add(p);
+                } else {
+                    offScene.add(p);
+                }
+            }
+
+            if (onScene.size() > 0) {
+                int i = 0;
+                while (i < rolls.length) {
+                    for (Player p : onScene) {
+                        p.addDollars(rolls[i]);
+                        i += 1;
+                        if (i >= rolls.length) {
+                            break;
+                        }
+                    }
+                }
+            }
+        }   //end if payout
+
+        for (Player p : offScene) {
+            p.addDollars(2);
+            p.setCurrentRole(null);
+            p.setCurrentScene(null);
+            p.setHasTakenRole(false);
+            p.setPracticeChips(0);
         }
-        payoutBonus();
+
+        for (Player p : onScene) {
+            p.setCurrentRole(null);
+            p.setCurrentScene(null);
+            p.setHasTakenRole(false);
+            p.setPracticeChips(0);
+        }
+
+        wrapped = true; //this tells the game controller to remove the scene from the board
         System.out.println("Scene \"" + sceneName + "\" wrapped!");
         System.out.println("Bonuses paid!");
     }
 
-
     /**
-     * Deals with paying out bonuses to Players on the Scene card (extras do not get bonuses)
+     * Generates a random number for a die roll
+     * @return
      */
-    private void payoutBonus() {
+    private int rollDie() {
         Random r = new Random();
-        int[] dieRolls = new int[budget];
-        for (int i = 0; i < budget; i++) {
-            dieRolls[i] = r.nextInt(6);
-        }
-        Arrays.sort(dieRolls);
-        //sort Ranks, todo: extras get their rank. Currently handles main role style.
-        for (int j = 0; j < playersOnScene.size(); j++) {
-            Player p = playersOnScene.get(j);
-            p.addDollars(dieRolls[j]);
-        }
+        return r.nextInt(6) + 1;
+    }
+
+    public boolean isWrapped() {
+        return wrapped;
+    }
+
+    public String getSceneName() {
+        return sceneName;
     }
 
     /**

@@ -17,4 +17,12 @@ public class Role {
         this.mainRole = isOnCardRole;
         this.area = area;
     }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public boolean isMainRole() {
+        return mainRole;
+    }
 }
