@@ -5,14 +5,9 @@
  * Deadwood
  */
 
-import javax.xml.stream.XMLStreamException;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
-import java.util.Scanner;
 
 public class Board {
     private final HashMap<String, Room> rooms;
@@ -40,31 +35,20 @@ public class Board {
     }
 
     /**
-     * Clears the board and deals new scenes.
-     * @param availableScenes
+     * Deals out scene cards onto the board
+     * @param available a list of scene cards that can be used. Will consume up to 10 or less (there's 40 cards)
      */
-    public void newDay(ArrayList<Scene> availableScenes) {
-        clearScenes();
-        dealScenes(availableScenes);
-        numOfScenes = 10;
-    }
-
-    public void clearScenes() {
-        //removes all scenes from all rooms
-        for (String rm : rooms.keySet()) {
-            rooms.get(rm).clearScene();
-        }
-    }
-
     public void dealScenes(ArrayList<Scene> available) {
 
         Random randint = new Random();
 
         for (String rm : this.rooms.keySet()) {
             if (!(rm.equals("Casting Office") || rm.equals("Trailer"))) {
-                int nextScene = randint.nextInt(available.size());
-                this.rooms.get(rm).setScene(available.get(nextScene));
-                available.remove(nextScene);
+                if (available.size() > 0) {
+                    int nextScene = randint.nextInt(available.size());
+                    this.rooms.get(rm).setScene(available.get(nextScene));
+                    available.remove(nextScene);
+                }
             }
         }
     }
@@ -77,6 +61,9 @@ public class Board {
         this.numOfScenes = numOfScenes;
     }
 
+    /**
+     * @return returns the last scene card on the board. We use this to set the payout to nothing for a final scene.
+     */
     public Scene getFinalScene() {
         for (String r : rooms.keySet()) {
             Room curr = rooms.get(r);

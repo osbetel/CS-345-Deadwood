@@ -5,10 +5,12 @@
  * Deadwood
  */
 
+import java.util.HashMap;
+
 public class Trailer extends Room {
 
-    public Trailer() {
-        super("Trailer", null, null, null, new int[]{991,248,194,201});
+    public Trailer(HashMap<String, Room> neighbors) {
+        super("Trailer", neighbors, null, null, new int[]{991,248,194,201});
         //The purpose of this class is because Trailer is a special room
         //players return specifically to this room at the end of a day
     }
