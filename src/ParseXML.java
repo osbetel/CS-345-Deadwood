@@ -51,7 +51,12 @@ public class ParseXML {
         return o;
     }
 
-
+    /**
+     * Reads the board.xml file and extracts and constructs all the room objects
+     * @param sr XML Stream Reader object
+     * @param rms A hashmap of String keys and Room values
+     * @throws XMLStreamException throws the exception if the XML file isn't in the expected format or doesn't exist.
+     */
     private static void readRooms(XMLStreamReader sr, HashMap<String, Room> rms)
             throws XMLStreamException {
 
@@ -103,8 +108,8 @@ public class ParseXML {
                         case "part":
                             String partName = sr.getAttributeValue(null, "name");
                             int reqRank = Integer.parseInt(sr.getAttributeValue(null, "level"));
-                            //int[] area = readArea(sr); //todo fix
-                            //String line = readLine(sr); //todo fix
+//                            area = readArea(sr); //todo fix
+//                            String line = readLine(sr); //todo fix
                             extraRoles.put(partName, new Role(partName, reqRank, false, null));
                             break;
                     }
@@ -117,15 +122,22 @@ public class ParseXML {
                         shotCounters = new ArrayList<>();
                         extraRoles = new HashMap<>();
                     } else if (sr.getLocalName().equalsIgnoreCase("trailer")) {
-                        rms.put("Trailer", new Trailer());
+                        rms.put("Trailer", new Trailer(neighbors));
+                        neighbors = new HashMap<>();
                     } else if (sr.getLocalName().equalsIgnoreCase("office")) {
-                        rms.put("Casting Office", new CastingOffice());
+                        rms.put("Casting Office", new CastingOffice(neighbors));
+                        neighbors = new HashMap<>();
                     }
                     break;
             }
         }
     }
 
+    /**
+     * Reads only the area tags and returns their value so we can have rooms with specific area (to click and move there)
+     * @param sr XML Stream Reader object
+     * @throws XMLStreamException throws the exception if the XML file isn't in the expected format or doesn't exist.
+     */
     private static int[] readArea(XMLStreamReader sr) throws XMLStreamException {
 
         if (!sr.getLocalName().equalsIgnoreCase("area")) {
@@ -140,12 +152,21 @@ public class ParseXML {
         return coords;
     }
 
+    /**
+     * Reads regular text between XML tags
+     */
     private static String readLine(XMLStreamReader sr) throws XMLStreamException {
         sr.next();
         String s = sr.getElementText();
         return s;
     }
 
+    /**
+     * Reads the cards.xml file and extracts and constructs all the room objects
+     * @param sr XML Stream Reader object
+     * @param scenes A list of scenes
+     * @throws XMLStreamException throws the exception if the XML file isn't in the expected format or doesn't exist.
+     */
     private static void readScenes(XMLStreamReader sr, ArrayList<Scene> scenes) throws XMLStreamException {
 
         //For Scene objects

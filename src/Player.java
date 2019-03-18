@@ -6,6 +6,7 @@
  */
 
 import java.lang.*;
+import java.util.Random;
 
 
 public class Player {
@@ -25,8 +26,18 @@ public class Player {
 
     private boolean hasMoved;
     private boolean hasTakenRole;
+    private boolean hasTakenAction;
 
-
+    /**
+     * Player constructor
+     * @param name
+     * @param startingRank
+     * @param startingDollars
+     * @param startingCredits
+     * @param startingRoom
+     * @param startingColor
+     * @param num
+     */
     public Player(String name, int startingRank, int startingDollars,
                   int startingCredits, Room startingRoom, String startingColor, int num) {
         playerName = name;
@@ -39,34 +50,53 @@ public class Player {
 
         currentRoom = startingRoom;
         hasMoved = false;
-        hasTakenRole = !(this.getCurrentRole() == null);
+        hasTakenRole = false;
+        hasTakenAction = false;
     }
-
 
     public void move(Room location) {
         this.currentRoom = location;
+        hasMoved = true;
+        hasTakenAction = true;
     }
 
-
-    public Player[] endTurn(Player[] player) {
-        var temp = player[0];
-        int playerLen = player.length;
-
-        for (int i = 0; i < playerLen; i++) {
-            player[i+1] = player[i];
-        }
-
-        player[0] = temp;
-        return player;
+    /**
+     * This is only used to move players back to trailer at the end of the day, and performs no checks
+     */
+    public void forceMove(Room location) {
+        this.currentRoom = location;
     }
 
-
-    private void takeRole(Scene scene, String role) {
+    public void takeRole(String role) {
         // roles are defined in Scene class as a Map<String, Integer>, where the integer value is the payout.
         // Consider defining a role class, a very short one to contain  more info about roles
-        this.currentRole = scene.getRole(role);
-    }
+        if (currentRoom.getScene() == null) {
+            System.out.println("Room has no scene!");
+            return;
+        }
 
+        if (currentRoom.extraRoles.containsKey(role)) {
+            Role r = currentRoom.extraRoles.get(role);
+            if (r.requiredRank <= getRank()) {
+                this.currentRole = currentRoom.extraRoles.remove(role);
+                currentScene = currentRoom.currentScene;
+                currentScene.playersInScene.add(this);
+                hasTakenRole = true;
+                hasTakenAction = true;
+            }
+        } else if (currentRoom.getScene().roles.containsKey(role)) {
+            Role r = currentRoom.getScene().roles.get(role);
+            if (r.requiredRank <= getRank()) {
+                this.currentRole = currentRoom.getScene().roles.remove(role);
+                currentScene = currentRoom.currentScene;
+                currentScene.playersInScene.add(this);
+                hasTakenRole = true;
+                hasTakenAction = true;
+            }
+        } else {  // can't take non-existent role
+            System.out.println("Role cannot be taken!");
+        }
+    }
 
     public int getPlayerNum() {
         return playerNum;
@@ -80,51 +110,41 @@ public class Player {
         return currentRoom;
     }
 
-
     public Scene getCurrentScene() {
         return currentScene;
     }
-
 
     public void setCurrentScene(Scene currentScene) {
         this.currentScene = currentScene;
     }
 
-
     public Role getCurrentRole() {
         return currentRole;
     }
-
 
     public void setCurrentRole(Role r) {
         currentRole = r;
     }
 
-
     public int getRank() {
         return dice.getRank();
     }
-
 
     public int getCredits() {
         return credits;
     }
 
-
     public int getDollars() {
         return dollars;
     }
-
 
     public int getScore() {
         return credits + dollars + dice.getRank() * 5;
     }
 
-
     public boolean getHasMoved() {
         return hasMoved || currentScene != null;
     }
-
 
     public void setHasMoved(boolean hasMoved) {
         this.hasMoved = hasMoved;
@@ -134,46 +154,72 @@ public class Player {
         return hasTakenRole;
     }
 
-
     public void setHasTakenRole(boolean hasTakenRole) {
         this.hasTakenRole = hasTakenRole;
     }
 
+    public void setHasTakenAction(boolean hasTakenAction) {
+        this.hasTakenAction = hasTakenAction;
+    }
+
+    public boolean getHasTakenAction() {
+        return hasTakenAction;
+    }
 
     public int getPracticeChips() {
         return this.practiceChips;
     }
 
-    /**
-     * Called from parseInput() in the GameController by a player.
-     */
     public void rehearse() {
         practiceChips += 1;
-        hasMoved = true;    //both set to true ends a player's turn
-        hasTakenRole = true;
+        hasTakenAction = true;
     }
 
     /**
      * Takes an integer from a rolled die as input, determines if the player succeeds or fails a shot.
      * If success, decrements counter, adds credits, etc.
      * If scene shots go to 0, calls wrapScene()
-     * @param rolledDie integer
      * @return returns true/false based on player success or fail
      */
-    public boolean act(int rolledDie) {
-        //todo implement differentiation between extra roles and main roles
-        hasMoved = true;
-        hasTakenRole = true;
-        if (currentScene.budget <= rolledDie + practiceChips) {
-            //acting successful
-            credits += 2;
-//            currentScene.setCounter(currentScene.getCounter() - 1);
-//            if (currentScene.getCounter() == 0) {
-//                currentScene.wrapScene();
-//            }
-            return true;
+    public boolean act() {
+
+        if (currentRole == null) {
+            return false;
         }
-        return false;
+
+        hasTakenAction = true;
+        boolean isMainRole = currentRole.mainRole;
+        int sceneBudget = currentScene.budget;
+        int dieRoll = rollDie();
+
+        if (dieRoll >= sceneBudget) {
+            //acting successful
+            if (isMainRole) {
+                credits += 2;
+            } else {
+                credits += 1;
+                dollars += 1;
+            }
+            currentRoom.shotCounters.remove(0);
+            int numCounters = currentRoom.shotCounters.size();
+            if (numCounters == 0) {
+                currentScene.wrapScene();
+            }
+            return true;
+        } else {
+            if (isMainRole) {
+                //nothing
+            } else {
+                dollars += 1;
+            }
+            return false;
+        }
+    }
+
+    //random integer die roll
+    private int rollDie() {
+        Random r = new Random();
+        return r.nextInt(6) + 1 + practiceChips;
     }
 
     public void addDollars(int dollars) {
@@ -182,6 +228,10 @@ public class Player {
 
     public void addCredits(int credits) {
         this.credits += credits;
+    }
+
+    public void setPracticeChips(int x) {
+        practiceChips = x;
     }
 
     /**
@@ -194,6 +244,7 @@ public class Player {
         int currentRank = getRank();
         if (currentRank == 6) {
             System.out.println("You're already the maximum rank!");
+            return;
         }
 
         if (!(currentRoom instanceof CastingOffice)) {
@@ -201,20 +252,22 @@ public class Player {
         } else {
 
             if (usingCredits) { //if using credit
-                int creditCost = ((CastingOffice) currentRoom).creditCost[currentRank];
+                int creditCost = ((CastingOffice) currentRoom).creditCost[currentRank - 1];
                 if (credits >= creditCost) {
                     credits -= creditCost;
                     this.dice.rankUp();
+                    hasTakenAction = true;
                 } else {
                     System.out.println("Insufficient amount of credits");
                 }
             }
 
             else { //if using credit
-                int dollarCost = ((CastingOffice) currentRoom).dollarCost[currentRank];
+                int dollarCost = ((CastingOffice) currentRoom).dollarCost[currentRank - 1];
                 if (dollars >= dollarCost) {
                     dollars -= dollarCost;
                     this.dice.rankUp();
+                    hasTakenAction = true;
                 } else {
                     System.out.println("Insufficient amount of dollars");
                 }
